@@ -44,7 +44,7 @@ class Elphaba(pygame.sprite.Sprite):
         self.is_moving = False
         self.direction = 1 # 1 para direita, -1 para esquerda
         self.current_frame = 0 # índice do frame atual da animação
-        self.animation_speed = 0.2 # velocidade em que os frames mudam (ajuste conforme necessário)
+        self.animation_speed = 0.1 # velocidade em que os frames mudam (ajuste conforme necessário)
 
     def processar_entrada(self):
         keys = pygame.key.get_pressed() # verifica quais teclas estão sendo pressionadas
