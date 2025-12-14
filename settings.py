@@ -5,7 +5,7 @@ título = 'Resgate RelâmpagOZ'
 fps = 60
 
 # propriedades base da Elphie
-elph_velocidade = 7 # determina o quão rápida a Elphie se move (velocidade horizontal em pixels/frame)
+elph_velocidade = 4 # determina o quão rápida a Elphie se move (velocidade horizontal em pixels/frame)
 elph_largura = 400
 elph_altura = 400
 elph_x = 100
