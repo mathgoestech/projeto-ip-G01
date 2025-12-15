@@ -8,7 +8,7 @@ título = 'Resgate RelâmpagOZ'
 fps = 60 # determina a velocidade máxima de atualização da tela
 
 # === PROPRIEDADES BASE DA ELPHIE (PLAYER) ===
-elph_velocidade = 5 # determina o quão rápida a Elphie se move na horizontal
+elph_velocidade = 3 # determina o quão rápida a Elphie se move na horizontal
 elph_largura = 300
 elph_altura = 300
 elph_x = 100
@@ -28,7 +28,7 @@ fonte = pygame.font.Font(None, 30) # objeto de fonte padrão, tamanho 30
 
 # === CARREGAMENTO DE ÍCONES DE COLETÁVEIS ===
 icone_grimorio = pygame.transform.scale(
-    pygame.image.load('imagens/sprites/coletáveis/relogio dragao/pixil-frame-0.png'),
+    pygame.image.load('imagens/sprites/coletáveis/grimorio/grimorio_arte_principal2.png'),
     (24, 24)
 )
 icone_relogio = pygame.transform.scale(
