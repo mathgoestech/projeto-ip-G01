@@ -68,7 +68,7 @@ class Elphaba(pygame.sprite.Sprite):
 
         # VARIÁVEIS DE CONTROLE DE ANIMAÇÃO
         self.current_frame = 0 # índice do frame atual
-        self.animation_speed = 0.005 # velocidade de transição de frames (ajuste se necessário)
+        self.animation_speed = 0.1 # velocidade de transição de frames (ajuste se necessário)
 
         self.can_shoot = True
         self.shoot_cooldown = 30 # tempo de espera entre disparos (em frames) >> 30 frames equivalem a 0.5s

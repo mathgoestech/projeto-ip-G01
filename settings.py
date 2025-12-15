@@ -8,7 +8,7 @@ título = 'Resgate RelâmpagOZ'
 fps = 60 # determina a velocidade máxima de atualização da tela
 
 # === PROPRIEDADES BASE DA ELPHIE (PLAYER) ===
-elph_velocidade = 3 # determina o quão rápida a Elphie se move na horizontal
+elph_velocidade = 5 # determina o quão rápida a Elphie se move na horizontal
 elph_largura = 300
 elph_altura = 300
 elph_x = 100
