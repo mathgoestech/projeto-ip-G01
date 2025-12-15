@@ -205,6 +205,10 @@ class Ataque(pygame.sprite.Sprite):
         if self.rect.right < 0 or self.rect.left > tela_largura:
             self.kill() # se o feitiço sair dos limites da tela, ele é destruído
 
+class Glinda():
+    def __init__(self):
+        pass
+
 class Inimigos():
     def __init__(self):
         pass
