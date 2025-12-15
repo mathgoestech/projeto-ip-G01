@@ -10,10 +10,10 @@ class Elphaba(pygame.sprite.Sprite):
         self.height = elph_altura
         self.speed = elph_velocidade # velocidade horizontal
 
-        # === ATRIBUTOS DE HUD (STATUS DO PLAYER) ===
-        self.max_hearts = 5
+        # ATRIBUTOS DE HUD (STATUS DO PLAYER)
+        self.max_hearts = 8
         self.hearts = self.max_hearts # vida atual, inicializada com o máximo
-        self.max_mana = 15
+        self.max_mana = 16
         self.mana = self.max_mana # mana atual, inicializada com o máximo
 
         # SISTEMA DE INVENTÁRIO (ITENS COLETADOS)
@@ -70,11 +70,16 @@ class Elphaba(pygame.sprite.Sprite):
         self.current_frame = 0 # índice do frame atual
         self.animation_speed = 0.1 # velocidade de transição de frames (ajuste se necessário)
 
-    def processar_entrada(self):
+        self.can_shoot = True
+        self.shoot_cooldown = 30 # tempo de espera entre disparos (em frames) >> 30 frames equivalem a 0.5s
+        self.cooldown_timer = 0 # contador regressivo do cooldown
+
+    def processar_entrada(self, disparo_ataque):
         keys = pygame.key.get_pressed() # verifica quais teclas estão sendo pressionadas
         TECLA_ESQUERDA = keys[pygame.K_LEFT]
         TECLA_DIREITA = keys[pygame.K_RIGHT]
         TECLA_CIMA = keys[pygame.K_UP]
+        TECLA_ESPAÇO = keys[pygame.K_SPACE]
 
         self.is_moving = False
 
@@ -88,6 +93,8 @@ class Elphaba(pygame.sprite.Sprite):
             self.direction = 1
         if TECLA_CIMA and not self.is_jumping:
             self.is_jumping = True # ativa o estado de pulo
+        if TECLA_ESPAÇO:
+            self.atirar(disparo_ataque)
 
     def aplicar_física(self):
         if self.is_jumping:
@@ -97,6 +104,28 @@ class Elphaba(pygame.sprite.Sprite):
                 self.is_jumping = False
                 self.jump_velocity = self.jump_height # reseta a velocidade para o próximo pulo
                 self.rect.y = self.ground_y # garante que o player pouse exatamente no chão
+
+    def controlar_cooldown(self):
+        if not self.can_shoot:
+            self.cooldown_timer -= 1
+            if self.cooldown_timer <= 0:
+                self.can_shoot = True
+                self.cooldown_timer = 0
+
+    def atirar(self, disparo_ataque):
+        # verifica se a Elphie pode atirar E se ela tem mana suficiente
+        if self.can_shoot and self.mana >= Ataque(0, 0, 1).mana_cost:
+            
+            # o disparo deve começar FORA do hitbox da Elphie para evitar colisões instantâneas
+            x_disparo = self.rect.centerx + (self.rect.width // 2) * self.direction # multiplica por 1 (direita) ou -1 (esquerda), garantindo que o feitiço comece na direção correta
+            y_disparo = self.rect.centery + 55 # ligeiramente acima do centro vertical
+
+            novo_disparo = Ataque(x_disparo, y_disparo, self.direction) # cria a instância do novo feitiço
+            disparo_ataque.add(novo_disparo) # adiciona ao grupo de feitiços ativos
+            
+            self.mana -= novo_disparo.mana_cost # subtrai o custo de mana
+            self.can_shoot = False # impede novos disparos imediatamente
+            self.cooldown_timer = self.shoot_cooldown
 
     def animar_sprites(self):
         if self.is_jumping:
@@ -119,14 +148,58 @@ class Elphaba(pygame.sprite.Sprite):
             if self.direction == -1:
                 self.image = pygame.transform.flip(self.image, True, False) # garante que a Elphaba esteja virada para a última direção
 
-    def update(self): # esse método é chamado automaticamente por 'player.update()' no main.py a cada frame
-        self.processar_entrada()
+    def update(self, disparo_ataque): # esse método é chamado automaticamente por 'player.update()' no main.py a cada frame
+        self.processar_entrada(disparo_ataque)
         self.aplicar_física()
+        self.controlar_cooldown()
         self.animar_sprites()
 
-class Feitiços():
-    def __init__(self):
-        pass
+class Ataque(pygame.sprite.Sprite):
+    def __init__(self, x, y, direction):
+        super().__init__()
+
+        # PROPRIEDADES DO FEITIÇO
+        self.damage = 1
+        self.speed = 8
+        self.direction = direction # herda a direção da Elphie
+        self.mana_cost = 2
+
+        # VARIÁVEIS DE CONTROLE DE ANIMAÇÃO
+        self.current_frame = 0
+        self.animation_speed = 0.1
+
+        self.frames = [
+            pygame.transform.scale(
+                pygame.image.load(f'imagens/sprites/ataque/at-fr{i}.png'), 
+                (300, 300)
+            )
+            for i in range(12)
+        ]
+
+        # CONFIGURAÇÃO DE IMAGEM INICIAL E RECT
+        self.image = self.frames[int(self.current_frame)]
+        self.rect = self.image.get_rect() 
+        self.rect.center = (x, y) # centraliza o feitiço no ponto de disparo
+
+    def animar_sprites(self):
+        self.current_frame += self.animation_speed
+
+        if self.current_frame >= len(self.frames):
+            self.current_frame = 0 
+
+        frame_index = int(self.current_frame)
+        imagem_atual = self.frames[frame_index]
+
+        if self.direction == -1:
+            imagem_atual = pygame.transform.flip(self.image, True, False)
+
+        self.image = imagem_atual
+
+    def update(self):
+        self.rect.x += self.speed * self.direction # move o feitiço horizontalmente a cada frame
+        
+        if self.rect.right < 0 or self.rect.left > tela_largura:
+            self.kill() # se o feitiço sair dos limites da tela, ele é destruído
 
 class Inimigos():
     def __init__(self):

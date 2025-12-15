@@ -19,6 +19,7 @@ piso_y = tela_altura # define a altura vertical que o player considera como o ch
 elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba, passando os dados de inicialização
 player = pygame.sprite.Group()
 player.add(elphaba)
+disparo_ataque = pygame.sprite.Group()
 
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
 def draw():
@@ -26,6 +27,7 @@ def draw():
     tela.blit(tela_fundo, (0, 0)) # desenha a imagem de fundo na posição (0, 0) para cobrir a tela inteira
 
     player.draw(tela) # desenha a Elphie
+    disparo_ataque.draw(tela) # desenha os disparos de feitiços
 
     # HUD: chamadas para desenhar os elementos da interface
     desenhar_vida(tela, elphaba)
@@ -54,7 +56,8 @@ while True:
         # LÓGICA DE FIM DE JOGO (GAME OVER)
         pass
 
-    player.update() # atualização do sprite da Elphaba
+    player.update(disparo_ataque) # atualização do sprite da Elphaba
+    disparo_ataque.update()
 
     draw()
     clock.tick(fps) # limita o loop para rodar em 60 fps

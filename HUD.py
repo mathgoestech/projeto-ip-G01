@@ -2,7 +2,7 @@ import pygame
 from settings import * # importa todas as constantes de settings.py
 
 def desenhar_vida(tela, elphaba):
-    barra_largura = 180 
+    barra_largura = 96
     barra_altura = 15  
 
     x_pos = 10 
@@ -52,7 +52,7 @@ def desenhar_timer(tela, tempo_restante):
     tela.blit(tempo_texto, (x_pos, y_pos))
 
 def desenhar_mana(tela, elphaba):
-    barra_largura = 180
+    barra_largura = 192
     barra_altura = 15
     
     x_pos = 10 
