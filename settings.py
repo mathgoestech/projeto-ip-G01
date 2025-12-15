@@ -28,7 +28,7 @@ fonte = pygame.font.Font(None, 30) # objeto de fonte padrão, tamanho 30
 
 # === CARREGAMENTO DE ÍCONES DE COLETÁVEIS ===
 icone_grimorio = pygame.transform.scale(
-    pygame.image.load('imagens/sprites/coletáveis/grimorio/grimorio_frame2.png'),
+    pygame.image.load('imagens/sprites/coletáveis/relogio dragao/pixil-frame-0.png'),
     (24, 24)
 )
 icone_relogio = pygame.transform.scale(

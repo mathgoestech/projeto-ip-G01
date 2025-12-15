@@ -24,26 +24,26 @@ class Elphaba(pygame.sprite.Sprite):
         # DEFINIÇÃO DAS ANIMAÇÕES
         self.animations = {
             'idle': pygame.transform.scale(
-                pygame.image.load('imagens/sprites/elphaba/elphie-parada-direita.png'),
+                pygame.image.load('imagens/sprites/elphaba/elphaba-parada-lado.png'),
                 (self.width, self.height)
             ),
             'andando': [
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/elphie-andando-direita1.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-andando-1.png'),
                     (self.width, self.height)
                 ),
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/elphie-andando-direita2.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-andando-2.png'),
                     (self.width, self.height)
                 )
             ],
             'pulando': [
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/2-elphie-pulo1.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-pulo-1.png'),
                     (self.width, self.height)
                 ),
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/elphie-pulo2.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-pulo-2.png'),
                     (self.width, self.height)
                 )
             ]
@@ -68,7 +68,7 @@ class Elphaba(pygame.sprite.Sprite):
 
         # VARIÁVEIS DE CONTROLE DE ANIMAÇÃO
         self.current_frame = 0 # índice do frame atual
-        self.animation_speed = 0.1 # velocidade de transição de frames (ajuste se necessário)
+        self.animation_speed = 0.005 # velocidade de transição de frames (ajuste se necessário)
 
         self.can_shoot = True
         self.shoot_cooldown = 30 # tempo de espera entre disparos (em frames) >> 30 frames equivalem a 0.5s
