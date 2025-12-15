@@ -32,10 +32,10 @@ icone_grimorio = pygame.transform.scale(
     (24, 24)
 )
 icone_relogio = pygame.transform.scale(
-    pygame.image.load('imagens/sprites/coletáveis/relogio dragao/pixil-frame-0.png'),
+    pygame.image.load('imagens/sprites/coletáveis/relogio dragao/relogio-frame-0.png'),
     (24, 24)
 )
 icone_pocao = pygame.transform.scale(
-    pygame.image.load('imagens/sprites/coletáveis/pocao de cura/pixil-frame-0.png'),
+    pygame.image.load('imagens/sprites/coletáveis/pocao de cura/pocao-frame-0.png'),
     (24, 24)
 )
