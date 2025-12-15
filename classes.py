@@ -24,26 +24,30 @@ class Elphaba(pygame.sprite.Sprite):
         # DEFINIÇÃO DAS ANIMAÇÕES
         self.animations = {
             'idle': pygame.transform.scale(
-                pygame.image.load('imagens/sprites/elphaba/elphie-parada-direita.png'),
+                pygame.image.load('imagens/sprites/elphaba/elphaba-parada-lado.png'),
+                (self.width, self.height)
+            ),
+            'atirando': pygame.transform.scale(
+                pygame.image.load('imagens/sprites/elphaba/elphaba-atirando.png'),
                 (self.width, self.height)
             ),
             'andando': [
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/elphie-andando-direita1.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-andando-1.png'),
                     (self.width, self.height)
                 ),
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/elphie-andando-direita2.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-andando-2.png'),
                     (self.width, self.height)
                 )
             ],
             'pulando': [
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/2-elphie-pulo1.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-pulo-1.png'),
                     (self.width, self.height)
                 ),
                 pygame.transform.scale(
-                    pygame.image.load('imagens/sprites/elphaba/elphie-pulo2.png'),
+                    pygame.image.load('imagens/sprites/elphaba/elphaba-pulo-2.png'),
                     (self.width, self.height)
                 )
             ]
@@ -200,6 +204,10 @@ class Ataque(pygame.sprite.Sprite):
         
         if self.rect.right < 0 or self.rect.left > tela_largura:
             self.kill() # se o feitiço sair dos limites da tela, ele é destruído
+
+class Glinda():
+    def __init__(self):
+        pass
 
 class Inimigos():
     def __init__(self):
