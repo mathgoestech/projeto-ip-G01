@@ -27,6 +27,10 @@ class Elphaba(pygame.sprite.Sprite):
                 pygame.image.load('imagens/sprites/elphaba/elphaba-parada-lado.png'),
                 (self.width, self.height)
             ),
+            'atirando': pygame.transform.scale(
+                pygame.image.load('imagens/sprites/elphaba/elphaba-atirando.png'),
+                (self.width, self.height)
+            ),
             'andando': [
                 pygame.transform.scale(
                     pygame.image.load('imagens/sprites/elphaba/elphaba-andando-1.png'),
