@@ -1,7 +1,8 @@
 import pygame
 import sys # módulo necessário para sair do programa
 from settings import * # importa todas as constantes de settings.py
-from classes import Elphaba # importa apenas a classe do player (por enquanto)
+from classes import Elphaba # importa a Elphaba
+from classes import Button
 from HUD import * # importa todas as funções de HUD.py
 
 pygame.init()
@@ -10,9 +11,27 @@ pygame.init()
 tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
+
+#=== CARREGAMENTO DO BOTÃO ===
+start_button_img = pygame.image.load('imagens/buttons/start_button.png').convert_alpha() #o convert_alpha otimiza a imagem e mantém transparência
+exit_button_img = pygame.image.load('imagens/buttons/exit_button.png').convert_alpha()
+
+
+        
+
+start_button = Button(350, 300, start_button_img, 0.5)
+exit_button = Button(500, 300, exit_button_img, 0.5)
+
+
+
 # === CARREGAMENTO E CONFIGURAÇÃO DO FUNDO ===
+BG1 = pygame.image.load('imagens/backgrounds/fundocastelo.jpg')
+tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
+
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
 tela_fundo = pygame.transform.scale(BG, (tela_largura, tela_altura))
+
+
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
@@ -35,12 +54,17 @@ def draw():
     desenhar_timer(tela, tempo_restante)
     desenhar_contadores(tela, elphaba)
 
+    
+
     pygame.display.update() # atualiza o conteúdo da tela inteira, mostrando o novo frame
 
 # === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
 tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
 tempo_inicial_ms = pygame.time.get_ticks() # registra o tempo em milissegundos a partir do início do loop
 clock = pygame.time.Clock() # limita a taxa de quadros por segundo
+
+# === MENU ===
+menu = True
 
 # === GAME LOOP PRINCIPAL ===
 while True:
@@ -49,15 +73,34 @@ while True:
             pygame.quit() # desinicializa todos os módulos do Pygame
             sys.exit() # sai do programa
     
-    tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000 # calcula o tempo em segundos que passou desde o início
-    tempo_restante = tempo_total - tempo_decorrido # timer
+    if menu:
+        tela.blit(tela_menu, (0, 0))
+        
+
+        if start_button.desenhar_botao(tela):
+            menu = False   # ← AGORA O JOGO COMEÇA
+
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
+
+        pygame.display.update()
+        clock.tick(fps)
+
+    else:
+        tela.fill((0, 0, 0)) #limpa a tela
     
-    if tempo_restante <= 0:
-        # LÓGICA DE FIM DE JOGO (GAME OVER)
-        pass
+        tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000 # calcula o tempo em segundos que passou desde o início
+        tempo_restante = tempo_total - tempo_decorrido # timer
+        
+        if tempo_restante <= 0:
+            # LÓGICA DE FIM DE JOGO (GAME OVER)
+            pass
 
-    player.update(disparo_ataque) # atualização do sprite da Elphaba
-    disparo_ataque.update()
+        player.update(disparo_ataque) # atualização do sprite da Elphaba
+        disparo_ataque.update()
 
-    draw()
-    clock.tick(fps) # limita o loop para rodar em 60 fps
+        draw()
+        clock.tick(fps) # limita o loop para rodar em 60 fps
+
+    
