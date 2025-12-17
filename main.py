@@ -11,6 +11,11 @@ pygame.init()
 tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
+# === MUSICAS === 
+MUSICA_MENU = 'efeitos_sonoros/start.mp3' 
+MUSICA_JOGO = 'efeitos_sonoros/trilha sonora.mp3' #a trilha do jogo 
+musica_atual = None
+
 #=== CARREGAMENTO DO BOTÃO ===
 start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
 exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
@@ -39,13 +44,6 @@ player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
 camera = [0, 0] # posição inicial da câmera
 scroller = 0
-
-# === FUNÇÃO PRA MUSICA === 
-def tocar_musica(caminho, volume=0.5):
-    pygame.mixer.music.stop() 
-    pygame.mixer.music.load(caminho) 
-    pygame.mixer.music.set_volume(volume) 
-    pygame.mixer.music.play(-1)
 
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
 def draw(scroller=scroller):
@@ -98,19 +96,21 @@ while True:
         tela.blit(tela_menu, (0, 0))
         tela.blit(exit_button_img, (495, 480))
         tela.blit(start_button_img, (500, 350))
-
         pygame.display.update()
-        musica_start = pygame.mixer.music.load('efeitos_sonoros/start.mp3')
-        pygame.mixer.music.play(-1)
 
-    if start_button.desenhar_botao(tela):
+        if musica_atual != MUSICA_MENU: 
+            tocar_musica(MUSICA_MENU) 
+            musica_atual = MUSICA_MENU
+
+    if start_button.desenhar_botao(tela): 
         estado = JOGANDO 
-        tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
+        tocar_musica(MUSICA_JOGO) 
+        musica_atual = MUSICA_JOGO 
+        tempo_inicial_ms = pygame.time.get_ticks()# agora zera o cronômetro quando o jogo começa # agora zera o cronômetro quando o jogo começa
 
     if exit_button.desenhar_botao(tela):
         pygame.quit()
         sys.exit()
-
 
     elif estado == JOGANDO:
     
