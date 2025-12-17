@@ -2,8 +2,8 @@ import pygame
 pygame.font.init() # inicializa o módulo de fontes do Pygame
 
 # === DEFINIÇÕES GERAIS (TELA, TÍTULO, FPS) ===
-tela_largura = 1000
-tela_altura = 600
+tela_largura = 1280
+tela_altura = 720
 título = 'Resgate RelâmpagOZ'
 fps = 60 # determina a velocidade máxima de atualização da tela
 

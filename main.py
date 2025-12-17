@@ -12,16 +12,16 @@ tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
 #=== CARREGAMENTO DO BOTÃO ===
-start_button_img = pygame.image.load('imagens/buttons/start_button.png').convert_alpha() # o convert_alpha otimiza a imagem e mantém transparência
-exit_button_img = pygame.image.load('imagens/buttons/exit_button.png').convert_alpha()
-restart_button_img = pygame.image.load('imagens/buttons/restart_button.png').convert_alpha() #botão do restart (para o game over)
+start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
+exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
+restart_button_img = pygame.image.load('imagens/buttons/botao-reiniciar.png').convert_alpha() #botão do restart (para o game over)
 
-restart_button = Button(350, 300, restart_button_img, 0.5)
-start_button = Button(350, 300, start_button_img, 0.5)
-exit_button = Button(500, 300, exit_button_img, 0.5)
+restart_button = Button(350, 300, restart_button_img, 1)
+start_button = Button(500, 350, start_button_img, 1)
+exit_button = Button(495, 480, exit_button_img, 1)
 
 # === CARREGAMENTO E CONFIGURAÇÃO DO FUNDO ===
-BG1 = pygame.image.load('imagens/backgrounds/fundocastelo.jpg')
+BG1 = pygame.image.load('imagens/backgrounds/fundo-menuprincipal.png')
 tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
 
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
@@ -33,24 +33,30 @@ fundos_pos = [0, -tela_largura, tela_largura]
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
-elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba, passando os dados de inicialização
+elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
 camera = [0, 0] # posição inicial da câmera
 scroller = 0
 
+# === FUNÇÃO PRA MUSICA === 
+def tocar_musica(caminho, volume=0.5):
+    pygame.mixer.music.stop() 
+    pygame.mixer.music.load(caminho) 
+    pygame.mixer.music.set_volume(volume) 
+    pygame.mixer.music.play(-1)
+
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
 def draw(scroller=scroller):
 
     for i in range(3):
-
         tela.blit(fundos_loop[i], (fundos_pos[i] + scroller, 0 - camera[1]))
-
     
     player.update(disparo_ataque) # atualização do sprite da Elphaba
     disparo_ataque.update()
     elphaba.render(tela, offset=render_camera) # desenha a Elphaba na tela com o offset da câmera
+    
     # Desenha os ataques na tela com o offset da câmera
     for ataque in disparo_ataque:
         tela.blit(ataque.image, (ataque.rect.x - render_camera[0], ataque.rect.y - render_camera[1]))
@@ -62,6 +68,13 @@ def draw(scroller=scroller):
     desenhar_contadores(tela, elphaba)
 
     pygame.display.update() # atualiza o conteúdo da tela inteira, mostrando o novo frame
+
+# === FUNÇÃO PRA MUSICA ===
+def tocar_musica(caminho):
+    pygame.mixer.music.stop()# para a musica atual
+    pygame.mixer.music.load(caminho) # troca a musica
+    pygame.mixer.music.set_volume(0.5)# volume
+    pygame.mixer.music.play(-1) # toca em looping
 
 # === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
 tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
@@ -81,29 +94,36 @@ while True:
             sys.exit() # sai do programa
     
     if estado == MENU:
+        #por algum motivo o menu não tava renderizando as imagens, então eu tentei consertar????
         tela.blit(tela_menu, (0, 0))
+        tela.blit(start_button_img, (495, 480))
+        tela.blit(exit_button_img, (500, 350))
 
-        if start_button.desenhar_botao(tela):
-            estado = JOGANDO 
-            tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
+        pygame.display.update()
+        musica_start = pygame.mixer.music.load('efeitos_sonoros/start.mp3')
+        pygame.mixer.music.play(-1)
 
-        if exit_button.desenhar_botao(tela):
-            pygame.quit()
-            sys.exit()
+    if start_button.desenhar_botao(tela):
+        estado = JOGANDO 
+        tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
+
+    if exit_button.desenhar_botao(tela):
+        pygame.quit()
+        sys.exit()
 
 
     elif estado == JOGANDO:
     
         tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000 # calcula o tempo em segundos que passou desde o início
         tempo_restante = tempo_total - tempo_decorrido # timer
-
-        camera[0] += (elphaba.rect.centerx - tela_largura / 4 - camera[0])
-        camera[1] += (elphaba.rect.centery - tela_altura/1.33 - camera[1])
-        render_camera = (int(camera[0]), int(camera[1]))
-
+        
         if tempo_restante <= 0:
             # LÓGICA DE FIM DE JOGO (GAME OVER)
             estado = GAME_OVER
+
+        camera[0] += (elphaba.rect.centerx - tela_largura / 4 - camera[0])
+        camera[1] += (elphaba.rect.centery - tela_altura/1.26 - camera[1])
+        render_camera = (int(camera[0]), int(camera[1]))
 
         is_moving, direction = elphaba.is_moving, elphaba.direction
         if is_moving:
@@ -113,22 +133,6 @@ while True:
             scroller = 0
 
         draw(scroller=scroller)
-
+    
     elif estado == GAME_OVER:
         tela.fill((0, 0, 0))
-
-        desenhar_game_over(tela)
-
-        if restart_button.desenhar_botao(tela):
-            estado = MENU
-            tempo_inicial_ms = None
-            elphaba.reset() 
-            disparo_ataque.empty()
-        
-        if exit_button.desenhar_botao(tela):
-            pygame.quit()
-            sys.exit()
-
-    pygame.display.update()
-    clock.tick(fps)
-    
