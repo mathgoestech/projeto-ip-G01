@@ -1,8 +1,8 @@
 import pygame
 import sys # módulo necessário para sair do programa
 from settings import * # importa todas as constantes de settings.py
-from classes import Elphaba # importa a Elphaba
-from classes import Button
+from jogador import *
+from objetos import *
 from HUD import * # importa todas as funções de HUD.py
 
 pygame.init()
@@ -106,7 +106,7 @@ while True:
         estado = JOGANDO 
         tocar_musica(MUSICA_JOGO) 
         musica_atual = MUSICA_JOGO 
-        tempo_inicial_ms = pygame.time.get_ticks()# agora zera o cronômetro quando o jogo começa # agora zera o cronômetro quando o jogo começa
+        tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa # agora zera o cronômetro quando o jogo começa
 
     if exit_button.desenhar_botao(tela):
         pygame.quit()
@@ -122,7 +122,7 @@ while True:
             estado = GAME_OVER
 
         camera[0] += (elphaba.rect.centerx - tela_largura / 2.5 - camera[0])
-        camera[1] += (elphaba.rect.centery - tela_altura/1.26 - camera[1])
+        camera[1] += (elphaba.rect.centery - tela_altura / 1.26 - camera[1])
         render_camera = (int(camera[0]), int(camera[1]))
 
         is_moving, direction = elphaba.is_moving, elphaba.direction

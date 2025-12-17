@@ -238,44 +238,4 @@ class Ataque(pygame.sprite.Sprite):
         
         if self.dist_percorrida > self.alcance_max:
             self.kill() # o feitiço agora é destruído com base na distância percorrida
-
-class Glinda():
-    def __init__(self):
-        pass
-
-class Inimigos():
-    def __init__(self):
-        pass
-
-class Coletáveis():
-    def __init__(self):
-        pass
-
-
-class Button():
-    def __init__(self, x, y, image, scale):
-        width = image.get_width()
-        height = image.get_height()
-        self.image = pygame.transform.scale(image, (int(width * scale), int((height * scale))))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-        self.clicked = False
-
-    def desenhar_botao(self, tela):
-        action = False
-
-        # pega a posição do mouse
-        pos = pygame.mouse.get_pos()
-
-        # verifica se o cursor está sobre o botão
-        if self.rect.collidepoint(pos): #Verifica se o mouse está colidindo com o retângulo (rect) do botão
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False: # [0] acessa o botão esquerdo do mouse 
-                self.clicked = True
-                action = True
             
-            if pygame.mouse.get_pressed()[0] == 0:
-                self.clicked = False
-
-        # desenha o botão na tela
-        tela.blit(self.image, (self.rect.x, self.rect.y))   
-        return action     
