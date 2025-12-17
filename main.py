@@ -136,3 +136,18 @@ while True:
     
     elif estado == GAME_OVER:
         tela.fill((0, 0, 0))
+
+        desenhar_game_over(tela)
+
+        if restart_button.desenhar_botao(tela):
+            estado = MENU
+            tempo_inicial_ms = None
+            elphaba.reset() 
+            disparo_ataque.empty()
+        
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
+
+    pygame.display.update()
+    clock.tick(fps)
