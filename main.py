@@ -96,8 +96,8 @@ while True:
     if estado == MENU:
         #por algum motivo o menu não tava renderizando as imagens, então eu tentei consertar????
         tela.blit(tela_menu, (0, 0))
-        tela.blit(start_button_img, (495, 480))
-        tela.blit(exit_button_img, (500, 350))
+        tela.blit(exit_button_img, (495, 480))
+        tela.blit(start_button_img, (500, 350))
 
         pygame.display.update()
         musica_start = pygame.mixer.music.load('efeitos_sonoros/start.mp3')
