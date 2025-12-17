@@ -152,8 +152,11 @@ class Elphaba(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.image, True, False) # espelha a imagem para simular movimento na direção oposta
         elif self.is_shooting:
             self.image = self.animations['atirando']
-            self.animation_timer -= 1
 
+            if self.direction == -1:
+                self.image = pygame.transform.flip(self.image, True, False)
+
+            self.animation_timer -= 1
             if self.animation_timer <= 0:
                 self.is_shooting = False
         else:
