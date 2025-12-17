@@ -26,6 +26,10 @@ tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
 
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
 tela_fundo = pygame.transform.scale(BG, (tela_largura, tela_altura))
+tela_fundo1 = pygame.transform.scale(BG, (tela_largura, tela_altura))
+tela_fundo2 = pygame.transform.scale(BG, (tela_largura, tela_altura))
+fundos_loop = [tela_fundo, tela_fundo1, tela_fundo2]
+fundos_pos = [0, -tela_largura, tela_largura]
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
@@ -33,14 +37,23 @@ elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba, passando os dados de 
 player = pygame.sprite.Group()
 player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
+camera = [0, 0] # posição inicial da câmera
+scroller = 0
 
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
-def draw():
+def draw(scroller=scroller):
 
-    tela.blit(tela_fundo, (0, 0)) # desenha a imagem de fundo na posição (0, 0) para cobrir a tela inteira
+    for i in range(3):
 
-    player.draw(tela) # desenha a Elphie
-    disparo_ataque.draw(tela) # desenha os disparos de feitiços
+        tela.blit(fundos_loop[i], (fundos_pos[i] + scroller, 0 - camera[1]))
+
+    
+    player.update(disparo_ataque) # atualização do sprite da Elphaba
+    disparo_ataque.update()
+    elphaba.render(tela, offset=render_camera) # desenha a Elphaba na tela com o offset da câmera
+    # Desenha os ataques na tela com o offset da câmera
+    for ataque in disparo_ataque:
+        tela.blit(ataque.image, (ataque.rect.x - render_camera[0], ataque.rect.y - render_camera[1]))
 
     # HUD: chamadas para desenhar os elementos da interface
     desenhar_vida(tela, elphaba)
@@ -83,17 +96,24 @@ while True:
     
         tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000 # calcula o tempo em segundos que passou desde o início
         tempo_restante = tempo_total - tempo_decorrido # timer
-        
+
+        camera[0] += (elphaba.rect.centerx - tela_largura / 4 - camera[0])
+        camera[1] += (elphaba.rect.centery - tela_altura/1.33 - camera[1])
+        render_camera = (int(camera[0]), int(camera[1]))
+
         if tempo_restante <= 0:
             # LÓGICA DE FIM DE JOGO (GAME OVER)
             estado = GAME_OVER
 
-        player.update(disparo_ataque) # atualização do sprite da Elphaba
-        disparo_ataque.update()
+        is_moving, direction = elphaba.is_moving, elphaba.direction
+        if is_moving:
+            scroller -= direction * elphaba.speed
 
-        draw()
-        
-    
+        if scroller < -tela_largura or scroller > tela_largura:
+            scroller = 0
+
+        draw(scroller=scroller)
+
     elif estado == GAME_OVER:
         tela.fill((0, 0, 0))
 

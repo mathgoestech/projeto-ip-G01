@@ -179,6 +179,13 @@ class Elphaba(pygame.sprite.Sprite):
         self.is_moving = False
         self.is_shooting = False
 
+    def render(self, tela, offset=(0, 0)):
+        tela.blit(self.image, (self.rect.x - offset[0], self.rect.y - offset[1]))
+
+    def rect(self):
+        return pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
+
+
 class Ataque(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         super().__init__()
