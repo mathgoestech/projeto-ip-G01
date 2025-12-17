@@ -11,6 +11,11 @@ pygame.init()
 tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
+# === MUSICAS === 
+MUSICA_MENU = 'efeitos sonoros/start.mp3' 
+MUSICA_JOGO = 'efeitos sonoros/trilha sonora.mp3' # a trilha do jogo 
+musica_atual = None
+
 #=== CARREGAMENTO DO BOTÃO ===
 start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
 exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
@@ -33,6 +38,13 @@ elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
+
+# === FUNÇÃO PRA MUSICA === 
+def tocar_musica(caminho, volume=0.5):
+    pygame.mixer.music.stop() 
+    pygame.mixer.music.load(caminho) 
+    pygame.mixer.music.set_volume(volume) 
+    pygame.mixer.music.play(-1)
 
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
 def draw():
@@ -70,9 +82,15 @@ while True:
     if estado == MENU:
         tela.blit(tela_menu, (0, 0))
 
-        if start_button.desenhar_botao(tela):
-            estado = JOGANDO 
-            tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
+        if musica_atual != MUSICA_MENU:
+            tocar_musica(MUSICA_MENU) 
+            musica_atual = MUSICA_MENU
+
+        if start_button.desenhar_botao(tela): 
+            estado = JOGANDO
+            tocar_musica(MUSICA_JOGO)
+            musica_atual = MUSICA_JOGO
+            tempo_inicial_ms = pygame.time.get_ticks()
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()
