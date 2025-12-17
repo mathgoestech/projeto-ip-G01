@@ -12,16 +12,16 @@ tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
 #=== CARREGAMENTO DO BOTÃO ===
-start_button_img = pygame.image.load('imagens/buttons/start_button.png').convert_alpha() # o convert_alpha otimiza a imagem e mantém transparência
-exit_button_img = pygame.image.load('imagens/buttons/exit_button.png').convert_alpha()
-restart_button_img = pygame.image.load('imagens/buttons/restart_button.png').convert_alpha() #botão do restart (para o game over)
+start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
+exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
+restart_button_img = pygame.image.load('imagens/buttons/botao-reiniciar.png').convert_alpha() #botão do restart (para o game over)
 
-restart_button = Button(350, 300, restart_button_img, 0.5)
-start_button = Button(350, 300, start_button_img, 0.5)
-exit_button = Button(500, 300, exit_button_img, 0.5)
+restart_button = Button(350, 300, restart_button_img, 1)
+start_button = Button(350, 280, start_button_img, 1)
+exit_button = Button(350, 430, exit_button_img, 1)
 
 # === CARREGAMENTO E CONFIGURAÇÃO DO FUNDO ===
-BG1 = pygame.image.load('imagens/backgrounds/fundocastelo.jpg')
+BG1 = pygame.image.load('imagens/backgrounds/fundo-menuprincipal.png')
 tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
 
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
@@ -29,7 +29,7 @@ tela_fundo = pygame.transform.scale(BG, (tela_largura, tela_altura))
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
-elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba, passando os dados de inicialização
+elphaba = Elphaba(elph_x, piso_y) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
@@ -92,7 +92,6 @@ while True:
         disparo_ataque.update()
 
         draw()
-        
     
     elif estado == GAME_OVER:
         tela.fill((0, 0, 0))
