@@ -17,8 +17,8 @@ exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_al
 restart_button_img = pygame.image.load('imagens/buttons/botao-reiniciar.png').convert_alpha() #botão do restart (para o game over)
 
 restart_button = Button(350, 300, restart_button_img, 1)
-start_button = Button(350, 280, start_button_img, 1)
-exit_button = Button(350, 430, exit_button_img, 1)
+start_button = Button(500, 350, start_button_img, 1)
+exit_button = Button(495, 480, exit_button_img, 1)
 
 # === CARREGAMENTO E CONFIGURAÇÃO DO FUNDO ===
 BG1 = pygame.image.load('imagens/backgrounds/fundo-menuprincipal.png')
