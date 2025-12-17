@@ -11,11 +11,6 @@ pygame.init()
 tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
-# === MUSICAS === 
-MUSICA_MENU = 'efeitos sonoros/start.mp3' 
-MUSICA_JOGO = 'efeitos sonoros/trilha sonora.mp3' # a trilha do jogo 
-musica_atual = None
-
 #=== CARREGAMENTO DO BOTÃO ===
 start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
 exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
@@ -62,6 +57,13 @@ def draw():
 
     pygame.display.update() # atualiza o conteúdo da tela inteira, mostrando o novo frame
 
+# === FUNÇÃO PRA MUSICA ===
+def tocar_musica(caminho):
+    pygame.mixer.music.stop()# para a musica atual
+    pygame.mixer.music.load(caminho) # troca a musica
+    pygame.mixer.music.set_volume(0.5)# volume
+    pygame.mixer.music.play(-1) # toca em looping
+
 # === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
 tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
 tempo_inicial_ms = pygame.time.get_ticks() # registra o tempo em milissegundos a partir do início do loop
@@ -82,15 +84,12 @@ while True:
     if estado == MENU:
         tela.blit(tela_menu, (0, 0))
 
-        if musica_atual != MUSICA_MENU:
-            tocar_musica(MUSICA_MENU) 
-            musica_atual = MUSICA_MENU
+        musica_start = pygame.mixer.music.load('start.mp3')
+        pygame.mixer.music.play(-1)
 
-        if start_button.desenhar_botao(tela): 
-            estado = JOGANDO
-            tocar_musica(MUSICA_JOGO)
-            musica_atual = MUSICA_JOGO
-            tempo_inicial_ms = pygame.time.get_ticks()
+        if start_button.desenhar_botao(tela):
+            estado = JOGANDO 
+            tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()
