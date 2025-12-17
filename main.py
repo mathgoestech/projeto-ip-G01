@@ -11,18 +11,12 @@ pygame.init()
 tela = pygame.display.set_mode((tela_largura, tela_altura))
 pygame.display.set_caption(título)
 
-
 #=== CARREGAMENTO DO BOTÃO ===
-start_button_img = pygame.image.load('imagens/buttons/start_button.png').convert_alpha() #o convert_alpha otimiza a imagem e mantém transparência
+start_button_img = pygame.image.load('imagens/buttons/start_button.png').convert_alpha() # o convert_alpha otimiza a imagem e mantém transparência
 exit_button_img = pygame.image.load('imagens/buttons/exit_button.png').convert_alpha()
-
-
-        
 
 start_button = Button(350, 300, start_button_img, 0.5)
 exit_button = Button(500, 300, exit_button_img, 0.5)
-
-
 
 # === CARREGAMENTO E CONFIGURAÇÃO DO FUNDO ===
 BG1 = pygame.image.load('imagens/backgrounds/fundocastelo.jpg')
@@ -30,8 +24,6 @@ tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
 
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
 tela_fundo = pygame.transform.scale(BG, (tela_largura, tela_altura))
-
-
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
@@ -54,8 +46,6 @@ def draw():
     desenhar_timer(tela, tempo_restante)
     desenhar_contadores(tela, elphaba)
 
-    
-
     pygame.display.update() # atualiza o conteúdo da tela inteira, mostrando o novo frame
 
 # === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
@@ -75,10 +65,10 @@ while True:
     
     if menu:
         tela.blit(tela_menu, (0, 0))
-        
 
         if start_button.desenhar_botao(tela):
-            menu = False   # ← AGORA O JOGO COMEÇA
+            menu = False # ← AGORA O JOGO COMEÇA
+            tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()
@@ -88,7 +78,7 @@ while True:
         clock.tick(fps)
 
     else:
-        tela.fill((0, 0, 0)) #limpa a tela
+        tela.fill((0, 0, 0)) # limpa a tela
     
         tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000 # calcula o tempo em segundos que passou desde o início
         tempo_restante = tempo_total - tempo_decorrido # timer
@@ -102,5 +92,4 @@ while True:
 
         draw()
         clock.tick(fps) # limita o loop para rodar em 60 fps
-
     

@@ -1,7 +1,6 @@
 import pygame
 from settings import * # importa todas as constantes de settings.py
 
-
 class Elphaba(pygame.sprite.Sprite):
     def __init__(self, elph_x, tela_altura):
         super().__init__()

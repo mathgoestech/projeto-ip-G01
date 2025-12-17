@@ -19,7 +19,7 @@ def desenhar_vida(tela, elphaba):
     pygame.draw.rect(tela, cor_rosa, preenchimento_rect) # desenha o preenchimento interno
 
     # DESENHO DO TEXTO NUMÉRICO
-    fonte = pygame.font.Font('Fonts/PixeloidMono.ttf', 22)
+    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 16)
     vida_texto = fonte.render(
         f'{elphaba.hearts}/{elphaba.max_hearts}', 
         True, 
@@ -69,7 +69,7 @@ def desenhar_mana(tela, elphaba):
     pygame.draw.rect(tela, cor_amarela, preenchimento_rect) # desenha o preenchimento interno
     
     # DESENHO DO TEXTO NUMÉRICO
-    fonte = pygame.font.Font('Fonts/PixeloidMono.ttf', 22)
+    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 16)
     mana_texto = fonte.render(
         f'{elphaba.mana}/{elphaba.max_mana}', 
         True, 
@@ -99,7 +99,7 @@ def desenhar_contadores(tela, elphaba):
     
     # LOOP DE DESENHO
     for icone, nome, contagem_atual in itens:
-        fonte = pygame.font.Font('Fonts/PixeloidMono.ttf', 22) # renderiza o texto
+        fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 16) # renderiza o texto
         texto_display = fonte.render(
             f'{nome}: {contagem_atual}', 
             True, 

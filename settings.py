@@ -24,7 +24,7 @@ cor_vermelha = (200, 0, 0)
 cor_amarela = (255, 215, 0)
 cor_rosa = (224, 60, 138)
 
-fonte = pygame.font.Font('Fonts/PixeloidMono.ttf', 30) # objeto de fonte padrão, tamanho 30
+fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 20) # objeto de fonte padrão, tamanho 30
 
 # === CARREGAMENTO DE ÍCONES DE COLETÁVEIS ===
 icone_grimorio = pygame.transform.scale(
