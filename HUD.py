@@ -125,3 +125,10 @@ def desenhar_contadores(tela, elphaba):
         tela.blit(texto_display, (x_texto, y_atual))
         
         y_atual += y_espaçamento # garante que os contadores fiquem um abaixo do outro
+
+
+def desenhar_game_over(tela):
+    fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 64)
+    texto = fonte.render("GAME OVER", True, (255, 0, 0)) #(255, 0, 0) é vermelho em RGB
+    rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 100))
+    tela.blit(texto, rect)

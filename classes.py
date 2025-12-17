@@ -167,6 +167,15 @@ class Elphaba(pygame.sprite.Sprite):
         self.controlar_cooldown()
         self.animar_sprites()
 
+    def reset(self): #reseta os valores para reiniciar o jogo com os valores padrão
+        self.rect.x = elph_x
+        self.rect.y = self.ground_y
+        self.hearts = self.max_hearts
+        self.mana = self.max_mana
+        self.is_jumping = False
+        self.is_moving = False
+        self.is_shooting = False
+
 class Ataque(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         super().__init__()

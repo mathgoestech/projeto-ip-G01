@@ -14,7 +14,9 @@ pygame.display.set_caption(título)
 #=== CARREGAMENTO DO BOTÃO ===
 start_button_img = pygame.image.load('imagens/buttons/start_button.png').convert_alpha() # o convert_alpha otimiza a imagem e mantém transparência
 exit_button_img = pygame.image.load('imagens/buttons/exit_button.png').convert_alpha()
+restart_button_img = pygame.image.load('imagens/buttons/restart_button.png').convert_alpha() #botão do restart (para o game over)
 
+restart_button = Button(350, 300, restart_button_img, 0.5)
 start_button = Button(350, 300, start_button_img, 0.5)
 exit_button = Button(500, 300, exit_button_img, 0.5)
 
@@ -53,9 +55,11 @@ tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se n
 tempo_inicial_ms = pygame.time.get_ticks() # registra o tempo em milissegundos a partir do início do loop
 clock = pygame.time.Clock() # limita a taxa de quadros por segundo
 
-# === MENU ===
-menu = True
-
+# === Definindo estados ===
+MENU = "menu"
+JOGANDO = "jogando"
+GAME_OVER = "game_over"
+estado =  MENU
 # === GAME LOOP PRINCIPAL ===
 while True:
     for event in pygame.event.get(): # itera sobre todos os eventos registrados pelo Pygame
@@ -63,33 +67,48 @@ while True:
             pygame.quit() # desinicializa todos os módulos do Pygame
             sys.exit() # sai do programa
     
-    if menu:
+    if estado == MENU:
         tela.blit(tela_menu, (0, 0))
 
         if start_button.desenhar_botao(tela):
-            menu = False # ← AGORA O JOGO COMEÇA
+            estado = JOGANDO 
             tempo_inicial_ms = pygame.time.get_ticks() # agora zera o cronômetro quando o jogo começa
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()
             sys.exit()
 
-        pygame.display.update()
-        clock.tick(fps)
 
-    else:
-        tela.fill((0, 0, 0)) # limpa a tela
+    elif estado == JOGANDO:
     
         tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000 # calcula o tempo em segundos que passou desde o início
         tempo_restante = tempo_total - tempo_decorrido # timer
         
         if tempo_restante <= 0:
             # LÓGICA DE FIM DE JOGO (GAME OVER)
-            pass
+            estado = GAME_OVER
 
         player.update(disparo_ataque) # atualização do sprite da Elphaba
         disparo_ataque.update()
 
         draw()
-        clock.tick(fps) # limita o loop para rodar em 60 fps
+        
+    
+    elif estado == GAME_OVER:
+        tela.fill((0, 0, 0))
+
+        desenhar_game_over(tela)
+
+        if restart_button.desenhar_botao(tela):
+            estado = MENU
+            tempo_inicial_ms = None
+            elphaba.reset() 
+            disparo_ataque.empty()
+        
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
+
+    pygame.display.update()
+    clock.tick(fps)
     
