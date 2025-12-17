@@ -119,7 +119,7 @@ class Elphaba(pygame.sprite.Sprite):
 
     def atirar(self, disparo_ataque):
         # verifica se a Elphie pode atirar E se ela tem mana suficiente
-        if self.can_shoot and self.mana >= Ataque(0, 0, 0).mana_cost:
+        if self.can_shoot and self.mana >= 2:
             
             # o disparo deve começar FORA do hitbox da Elphie para evitar colisões instantâneas
             x_disparo = self.rect.centerx + (self.rect.width // 2) * self.direction # multiplica por 1 (direita) ou -1 (esquerda), garantindo que o feitiço comece na direção correta
@@ -170,7 +170,7 @@ class Elphaba(pygame.sprite.Sprite):
         self.controlar_cooldown()
         self.animar_sprites()
 
-    def reset(self): #reseta os valores para reiniciar o jogo com os valores padrão
+    def reset(self): # reseta os valores para reiniciar o jogo com os valores padrão
         self.rect.x = elph_x
         self.rect.y = self.ground_y
         self.hearts = self.max_hearts
@@ -195,6 +195,8 @@ class Ataque(pygame.sprite.Sprite):
         self.speed = 5
         self.direction = direction # herda a direção da Elphie
         self.mana_cost = 2
+        self.dist_percorrida = 0
+        self.alcance_max = 800 # o feitiço vai sumir depois de viajar 800 pixels
 
         # VARIÁVEIS DE CONTROLE DE ANIMAÇÃO
         self.current_frame = 0
@@ -223,17 +225,19 @@ class Ataque(pygame.sprite.Sprite):
         imagem_atual = self.frames[frame_idx]
 
         if self.direction == -1:
-            imagem_atual = pygame.transform.flip(self.image, True, False)
+            imagem_atual = pygame.transform.flip(imagem_atual, True, False)
 
         self.image = imagem_atual
 
     def update(self):
         self.animar_sprites()
         
-        self.rect.x += self.speed * self.direction # move o feitiço horizontalmente a cada frame
+        deslocamento = self.speed * self.direction
+        self.rect.x += deslocamento # move o feitiço horizontalmente a cada frame
+        self.dist_percorrida += abs(deslocamento)
         
-        if self.rect.right < 0 or self.rect.left > tela_largura:
-            self.kill() # se o feitiço sair dos limites da tela, ele é destruído
+        if self.dist_percorrida > self.alcance_max:
+            self.kill() # o feitiço agora é destruído com base na distância percorrida
 
 class Glinda():
     def __init__(self):
@@ -260,18 +264,18 @@ class Button():
     def desenhar_botao(self, tela):
         action = False
 
-        #pega a posição do mouse
+        # pega a posição do mouse
         pos = pygame.mouse.get_pos()
 
-        #verifica se o cursor está sobre o botão
+        # verifica se o cursor está sobre o botão
         if self.rect.collidepoint(pos): #Verifica se o mouse está colidindo com o retângulo (rect) do botão
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False: #[0] acessa o botão esquerdo do mouse 
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False: # [0] acessa o botão esquerdo do mouse 
                 self.clicked = True
                 action = True
             
             if pygame.mouse.get_pressed()[0] == 0:
                 self.clicked = False
 
-        #desenha o botão na tela
+        # desenha o botão na tela
         tela.blit(self.image, (self.rect.x, self.rect.y))   
         return action     

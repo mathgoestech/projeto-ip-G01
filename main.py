@@ -121,7 +121,7 @@ while True:
             # LÓGICA DE FIM DE JOGO (GAME OVER)
             estado = GAME_OVER
 
-        camera[0] += (elphaba.rect.centerx - tela_largura / 4 - camera[0])
+        camera[0] += (elphaba.rect.centerx - tela_largura / 2.5 - camera[0])
         camera[1] += (elphaba.rect.centery - tela_altura/1.26 - camera[1])
         render_camera = (int(camera[0]), int(camera[1]))
 
