@@ -247,7 +247,7 @@ class Ataque(pygame.sprite.Sprite):
     def animar_sprites(self):
         self.current_frame += self.animation_speed
 
-        # se a nimação acabou destrói o objeto #
+        # se a animação acabou destrói o objeto #
         if self.current_frame >= len(self.frames):
             self.kill()
             return
@@ -263,7 +263,7 @@ class Ataque(pygame.sprite.Sprite):
     def update(self, plataformas=None):
         self.animar_sprites()
         
-        if self.alive() and not self.colidiu: # se o projetil tiver ativo e não colidiu em nada, movimenta #
+        if self.alive() and not self.colidiu: # se o projétil tiver ativo e não colidiu em nada, movimenta #
             deslocamento = self.speed * self.direction
             self.rect.x += deslocamento
             self.dist_percorrida += abs(deslocamento)

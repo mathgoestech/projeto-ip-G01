@@ -12,7 +12,6 @@ pygame.init()
 tela = pygame.display.set_mode((tela_largura, tela_altura), pygame.SCALED | pygame.RESIZABLE, vsync=1)
 pygame.display.set_caption(título)
 
-
 # === MUSICAS === 
 MUSICA_MENU = 'efeitos_sonoros/start.mp3' 
 MUSICA_JOGO = 'efeitos_sonoros/trilha sonora.mp3' #a trilha do jogo 
@@ -46,23 +45,46 @@ elphaba = Elphaba(elph_x, 100) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
+itens = pygame.sprite.Group()
+testando_hitbox = Relógio(500, 200) 
+itens.add(testando_hitbox)
 camera = [0, 0] # posição inicial da câmera
 scroller = 0
 render_camera = [0, 0]
 
+# === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
+tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
+tempo_inicial_ms = pygame.time.get_ticks() # registra o tempo em milissegundos a partir do início do loop
+clock = pygame.time.Clock() # limita a taxa de quadros por segundo
+tempo_congelado = 0
+timer_pausado = False
+
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
 def draw(scroller=scroller):
+    global timer_pausado, tempo_congelado
+
     for i in range(3):
         pos_x_parallax = (fundos_pos[i] - camera[0] * 0.5) 
         tela.blit(fundos_loop[i], (pos_x_parallax, 0 - camera[1]))
 
     mapa_oz.render(tela, render_camera)
 
-    # Desenha os ataques na tela com o offset da câmera
+    # desenha os ataques na tela com o offset da câmera
     for ataque in disparo_ataque:
-        ataque.render(tela, offset=render_camera) 
+        ataque.render(tela, offset=render_camera)
 
     elphaba.render(tela, offset=render_camera) # desenha a Elphaba na tela com o offset da câmera
+
+    for item in itens:
+        item.render(tela, render_camera) # desenha o item no mundo
+        
+        # checa a colisão e retorna True se a Elphaba tiver coletado o item
+        if item.update(elphaba): 
+            if item.item_type == 'relógio do dragão':
+                timer_pausado = True # desativa temporariamente o timer
+                tempo_congelado = pygame.time.get_ticks() + 5000 # calcula o momento exato em que o tempo deve voltar ao normal
+
+            item.kill() # deleta o item do jogo
 
     # HUD 
     desenhar_vida(tela, elphaba)
@@ -76,11 +98,6 @@ def tocar_musica(caminho):
     pygame.mixer.music.load(caminho) # troca a musica
     pygame.mixer.music.set_volume(0.5)# volume
     pygame.mixer.music.play(-1) # toca em looping
-
-# === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
-tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
-tempo_inicial_ms = pygame.time.get_ticks() # registra o tempo em milissegundos a partir do início do loop
-clock = pygame.time.Clock() # limita a taxa de quadros por segundo
 
 # === Definindo estados ===
 MENU = "menu"
@@ -112,12 +129,19 @@ while True:
         disparo_ataque.update(mapa_oz.plataformas)
 
         # CÁLCULO DE CÂMERA E TEMPO
+        if timer_pausado:
+            if pygame.time.get_ticks() >= tempo_congelado: # verifica se já passou do limite de 5 segundos
+                timer_pausado = False # reativa o timer normalmente
+            else:
+                # compensa o timer depois do efeito de congelamento, adicionando o tempo parado de volta
+                tempo_inicial_ms += clock.get_time() 
+
         tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000
         tempo_restante = tempo_total - tempo_decorrido
         
         if tempo_restante <= 0: estado = GAME_OVER
 
-        # Cálculo da câmera
+        # cálculo da câmera
         camera[0] += (elphaba.rect.centerx - tela_largura / 2 - camera[0])
         camera[1] += (elphaba.rect.centery - tela_altura / 2 - camera[1])
 
@@ -125,19 +149,19 @@ while True:
         largura_mapa_pixels = mapa_oz.tmx_data.width * tamanho_tile
         altura_mapa_pixels = mapa_oz.tmx_data.height * tamanho_tile
 
-        # 2. TRAVA DA CÂMERA
+        # TRAVA DA CÂMERA
         camera[0] = max(0, min(camera[0], largura_mapa_pixels - tela_largura))
         camera[1] = max(0, min(camera[1], altura_mapa_pixels - tela_altura))
 
         render_camera = (int(camera[0]), int(camera[1]))
 
-        # Ajuste do Parallax
+        # ajuste do Parallax
         if elphaba.is_moving:
             scroller -= elphaba.direction * elphaba.speed
         if scroller < -tela_largura or scroller > tela_largura:
             scroller = 0
 
-        # 3. DESENHO
+        # DESENHO
         draw(scroller=scroller)
 
     elif estado == GAME_OVER:
