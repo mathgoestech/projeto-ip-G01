@@ -3,10 +3,10 @@ from settings import *
 
 #  FUNÇÃO P/ DESENHAR A BARRA DE VIDA #
 def desenhar_vida(tela, elphaba):
-    barra_largura = 96
-    barra_altura = 15  
+    barra_largura = 60
+    barra_altura = 8
     x_pos = 10 
-    y_pos = 20 
+    y_pos = 10 
     
     # CÁLCULO DA PORCENTAGEM E LARGURA ATUAL
     porcentagem_vida = elphaba.hearts / elphaba.max_hearts
@@ -14,23 +14,22 @@ def desenhar_vida(tela, elphaba):
     
     # DESENHO DA BARRA (FUNDO E PREENCHIMENTO)
     fundo_rect = (x_pos, y_pos, barra_largura, barra_altura)
-    pygame.draw.rect(tela, cor_branca, fundo_rect, 2) # desenha a moldura da barra
+    pygame.draw.rect(tela, cor_branca, fundo_rect, 1) # desenha a moldura da barra
     preenchimento_rect = (x_pos, y_pos, vida_atual_largura, barra_altura)
     pygame.draw.rect(tela, cor_rosa, preenchimento_rect) # desenha o preenchimento interno
 
     # DESENHO DO TEXTO NUMÉRICO
-    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 16)
+    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 10)
     vida_texto = fonte.render(
         f'{elphaba.hearts}/{elphaba.max_hearts}', 
         True, 
-        cor_branca
+        cor_preta
     )
     
     MARGEM_HORIZONTAL = 10 # espaço entre a barra e o número
     texto_altura = vida_texto.get_height() # centraliza o texto na altura da barra
     x_pos_texto = x_pos + barra_largura + MARGEM_HORIZONTAL
     y_pos_texto = y_pos + (barra_altura // 2) - (texto_altura // 2)
-    
     
     tela.blit(vida_texto, (x_pos_texto, y_pos_texto))
 
@@ -43,7 +42,7 @@ def desenhar_timer(tela, tempo_restante):
     segundos = int(tempo_restante % 60)
 
     tempo_str = f'{minutos:02}:{segundos:02}' # formata a string (zero-padding)
-    cor_tempo = cor_vermelha if tempo_restante <= 30 else cor_branca # muda a cor nos últimos 30 segundos
+    cor_tempo = cor_vermelha if tempo_restante <= 30 else cor_preta # muda a cor nos últimos 30 segundos
 
     # renderização do texto e posicionamento dinâmico
     tempo_texto = fonte.render(f"TIMER: {tempo_str}", True, cor_tempo)
@@ -54,11 +53,10 @@ def desenhar_timer(tela, tempo_restante):
 
 # FUNÇÃO P/ DESENHAR A BARRA DE MANA @
 def desenhar_mana(tela, elphaba):
-    barra_largura = 192
-    barra_altura = 15
-    
+    barra_largura = 120
+    barra_altura = 8
     x_pos = 10 
-    y_pos = 40 
+    y_pos = 22
     
     # CÁLCULO DA PORCENTAGEM E LARGURA ATUAL
     porcentagem_mana = elphaba.mana / elphaba.max_mana
@@ -66,16 +64,16 @@ def desenhar_mana(tela, elphaba):
     
     # DESENHO DA BARRA (FUNDO E PREENCHIMENTO)
     fundo_rect = (x_pos, y_pos, barra_largura, barra_altura)
-    pygame.draw.rect(tela, cor_branca, fundo_rect, 2) # desenha a moldura da barra
+    pygame.draw.rect(tela, cor_branca, fundo_rect, 1) # desenha a moldura da barra
     preenchimento_rect = (x_pos, y_pos, mana_atual_largura, barra_altura)
     pygame.draw.rect(tela, cor_amarela, preenchimento_rect) # desenha o preenchimento interno
     
     # DESENHO DO TEXTO NUMÉRICO
-    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 16)
+    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 10)
     mana_texto = fonte.render(
         f'{elphaba.mana}/{elphaba.max_mana}', 
         True, 
-        cor_branca
+        cor_preta
     )
 
     MARGEM_HORIZONTAL = 10 # espaço entre a barra e o número
@@ -88,8 +86,8 @@ def desenhar_mana(tela, elphaba):
 # FUNÇÃO DE CONTADORES DE COLETÁVEIS #
 def desenhar_contadores(tela, elphaba):
     MARGEM_ESQUERDA = 10 
-    y_inicial = 65
-    y_espaçamento = 25 # distância vertical entre os itens
+    y_inicial = 35
+    y_espaçamento = 15 # distância vertical entre os itens
 
     # DEFINIÇÃO DA LISTA DE ITENS
     itens = [
@@ -102,11 +100,11 @@ def desenhar_contadores(tela, elphaba):
     
     # LOOP DE DESENHO
     for icone, nome, contagem_atual in itens:
-        fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 16) # renderiza o texto
+        fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 10) # renderiza o texto
         texto_display = fonte.render(
             f'{nome}: {contagem_atual}', 
             True, 
-            cor_branca
+            cor_preta
         )
 
         # MEDIDAS E ESPAÇAMENTOS
@@ -131,7 +129,7 @@ def desenhar_contadores(tela, elphaba):
 
 # FUNÇÃO GAME OVER #
 def desenhar_game_over(tela):
-    fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 32)
+    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 32)
     texto = fonte.render("GAME OVER", True, (255, 0, 0)) #(255, 0, 0) é vermelho em RGB
     rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)

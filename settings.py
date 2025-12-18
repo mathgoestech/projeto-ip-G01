@@ -23,19 +23,20 @@ cor_branca = (255, 255, 255)
 cor_vermelha = (200, 0, 0)
 cor_amarela = (255, 215, 0)
 cor_rosa = (224, 60, 138)
+cor_preta = (0, 0, 0)
 
-fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 20) # objeto de fonte padrão, tamanho 30
+fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 12) # objeto de fonte padrão, tamanho 30
 
 # === CARREGAMENTO DE ÍCONES DE COLETÁVEIS ===
 icone_grimorio = pygame.transform.scale(
     pygame.image.load('imagens/sprites/coletáveis/grimorio/grimorio_arte_principal2.png'),
-    (24, 24)
+    (16, 16)
 )
 icone_relogio = pygame.transform.scale(
     pygame.image.load('imagens/sprites/coletáveis/relogio dragao/relogio-frame-0.png'),
-    (24, 24)
+    (16, 16)
 )
 icone_pocao = pygame.transform.scale(
     pygame.image.load('imagens/sprites/coletáveis/pocao de cura/pocao-frame-0.png'),
-    (24, 24)
+    (16, 16)
 )
