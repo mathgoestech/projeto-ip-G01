@@ -2,21 +2,21 @@ import pygame
 pygame.font.init() # inicializa o módulo de fontes do Pygame
 
 # === DEFINIÇÕES GERAIS (TELA, TÍTULO, FPS) ===
-tela_largura = 1280
-tela_altura = 720
+tela_largura = 640
+tela_altura = 360
 título = 'Resgate RelâmpagOZ'
 fps = 60 # determina a velocidade máxima de atualização da tela
 
 # === PROPRIEDADES BASE DA ELPHIE (PLAYER) ===
-elph_velocidade = 3 # determina o quão rápida a Elphie se move na horizontal
-elph_largura = 300
-elph_altura = 300
-elph_x = 100
-elph_y = 200
+elph_velocidade = 2 # determina o quão rápida a Elphie se move na horizontal
+elph_largura = 64
+elph_altura = 64
+elph_x = 50
+elph_y = 100
 
 # === FÍSICA DO MOVIMENTO VERTICAL (GRAVIDADE E PULO) ===
-gravidade = 0.8 # aceleração vertical aplicada a cada frame
-pulo_altura = 20 # força inicial (velocidade vertical negativa)
+gravidade = 0.5 # aceleração vertical aplicada a cada frame
+pulo_altura = 9 # força inicial (velocidade vertical negativa)
 
 # === CONFIGURAÇÕES DO HUD (HEADS-UP DISPLAY) ===
 cor_branca = (255, 255, 255)

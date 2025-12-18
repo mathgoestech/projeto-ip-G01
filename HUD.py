@@ -1,10 +1,10 @@
 import pygame
-from settings import * # importa todas as constantes de settings.py
+from settings import *
 
+#  FUNÇÃO P/ DESENHAR A BARRA DE VIDA #
 def desenhar_vida(tela, elphaba):
     barra_largura = 96
     barra_altura = 15  
-
     x_pos = 10 
     y_pos = 20 
     
@@ -34,6 +34,7 @@ def desenhar_vida(tela, elphaba):
     
     tela.blit(vida_texto, (x_pos_texto, y_pos_texto))
 
+# FUNÇÃO P/ DESENHAR O TIMER #
 def desenhar_timer(tela, tempo_restante):
     tempo_restante = max(0, tempo_restante) # previne tempo negativo
 
@@ -51,6 +52,7 @@ def desenhar_timer(tela, tempo_restante):
     
     tela.blit(tempo_texto, (x_pos, y_pos))
 
+# FUNÇÃO P/ DESENHAR A BARRA DE MANA @
 def desenhar_mana(tela, elphaba):
     barra_largura = 192
     barra_altura = 15
@@ -83,6 +85,7 @@ def desenhar_mana(tela, elphaba):
     
     tela.blit(mana_texto, (x_pos_texto, y_pos_texto))
 
+# FUNÇÃO DE CONTADORES DE COLETÁVEIS #
 def desenhar_contadores(tela, elphaba):
     MARGEM_ESQUERDA = 10 
     y_inicial = 65
@@ -126,11 +129,11 @@ def desenhar_contadores(tela, elphaba):
         
         y_atual += y_espaçamento # garante que os contadores fiquem um abaixo do outro
 
-
+# FUNÇÃO GAME OVER #
 def desenhar_game_over(tela):
-    fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 64)
+    fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 32)
     texto = fonte.render("GAME OVER", True, (255, 0, 0)) #(255, 0, 0) é vermelho em RGB
-    rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 100))
+    rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)
 
 class Button():
