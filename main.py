@@ -100,10 +100,17 @@ def draw(scroller=scroller):
 
 # === FUNÇÃO PRA MUSICA ===
 def tocar_musica(caminho):
-    pygame.mixer.music.stop()# para a musica atual
-    pygame.mixer.music.load(caminho) # troca a musica
-    pygame.mixer.music.set_volume(0.5)# volume
-    pygame.mixer.music.play(-1) # toca em looping
+    global musica_atual
+    if musica_atual != caminho:
+        pygame.mixer.music.stop()# para a musica atual
+        pygame.mixer.music.load(caminho)# troca a musica
+        pygame.mixer.music.set_volume(0.5)# volume
+        pygame.mixer.music.play(-1)# toca em looping
+        musica_atual = caminho
+
+# === FUNÇÃO SOM DE COLETA ===
+from objetos import carregar_sons
+carregar_sons()
 
 # === Definindo estados ===
 MENU = "menu"
@@ -120,6 +127,7 @@ while True:
             sys.exit() # sai do programa
     
     if estado == MENU:
+        tocar_musica(MUSICA_MENU)
         tela.blit(tela_menu, (0, 0))
         if start_button.desenhar_botao(tela): 
             estado = JOGANDO 

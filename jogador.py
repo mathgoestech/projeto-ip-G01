@@ -21,6 +21,10 @@ class Elphaba(pygame.sprite.Sprite):
         self.grimorios_coletados = 0 
         self.relogios_coletados = 0 
         
+        #SOM DO ATAQUE
+        self.som_ataque = pygame.mixer.Sound('efeitos_sonoros/barulho ataque.wav')
+        self.som_ataque.set_volume(0.3)
+
         # DEFINIÇÃO DAS ANIMAÇÕES
         self.animations = {
             'idle': pygame.transform.scale(
@@ -142,6 +146,7 @@ class Elphaba(pygame.sprite.Sprite):
             self.cooldown_timer = self.shoot_cooldown
             self.is_shooting = True
             self.animation_timer = 8
+            self.som_ataque.play()# toca o som de atque
 
     def animar_sprites(self):
         if self.is_jumping:

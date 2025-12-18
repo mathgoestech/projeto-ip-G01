@@ -1,6 +1,13 @@
 import pygame
 from settings import * # importa todas as constantes de settings.py
 
+# fUNÇÃO PRO SOM PRA COLETA
+som_coleta = None
+def carregar_sons():
+    global som_coleta
+    som_coleta = pygame.mixer.Sound('efeitos_sonoros/coletavel.wav')
+    som_coleta.set_volume(0.3)
+
 class Glinda():
     def __init__(self):
         pass
@@ -32,6 +39,8 @@ class Relógio(pygame.sprite.Sprite):
         self.image = self.frames[int(self.current_frame)]
         self.rect = self.image.get_rect()
 
+        # co
+
         # COORDENADAS INICIAIS NO MAPA
         self.rect.x = x
         self.rect.y = y
@@ -51,6 +60,7 @@ class Relógio(pygame.sprite.Sprite):
         # verifica colisão entre os retângulos do relógio e da Elphaba
         if self.rect.colliderect(elphaba.rect):
             elphaba.relogios_coletados += 1
+            som_coleta.play()
             return True # avisa ao main.py pra congelar o timer
         return False # não aconteceu colisão
 
@@ -99,6 +109,7 @@ class Elixir(pygame.sprite.Sprite):
         # verifica colisão entre os retângulos do elixir e da Elphaba
         if self.rect.colliderect(elphaba.rect):
             elphaba.pocoes_coletadas += 1
+            som_coleta.play()
             return True # avisa ao main.py pra incrementar +2 na barra de vida
         return False # não aconteceu colisão
 
@@ -147,6 +158,7 @@ class Grimmerie(pygame.sprite.Sprite):
         # verifica colisão entre os retângulos do elixir e da Elphaba
         if self.rect.colliderect(elphaba.rect):
             elphaba.grimorios_coletados += 1
+            som_coleta.play()
             return True # avisa ao main.py pra incrementar +4 na barra de mana
         return False # não aconteceu colisão
 
