@@ -98,6 +98,25 @@ class Inimigos(pygame.sprite.Sprite):
         self.current_frame = 0
         self.animation_speed = 0.1
 
+    def aplicar_fisica(self, plataformas):
+
+        # COLISÃO PLATAFORMAS
+        colisoes = pygame.sprite.spritecollide(self, plataformas, False)
+        for bloco in colisoes:
+            if self.rect.bottom <= bloco.rect.bottom:
+                self.rect.bottom = bloco.rect.top
+                self.flying = 0
+            elif self.rect.top >= bloco.rect.top:
+                self.rect.top = bloco.rect.bottom
+                self.flying = 0
+
+            if self.rect.right >= bloco.rect.right:
+                self.rect.right = bloco.rect.left
+                self.direction *= -1
+            elif self.rect.left <= bloco.rect.left:
+                self.rect.left = bloco.rect.right
+                self.direction *= -1
+
     def animar_sprites(self):
         if self.flying:
             self.current_frame += self.animation_speed
@@ -114,19 +133,20 @@ class Inimigos(pygame.sprite.Sprite):
         else:
             self.image = self.animations['idle']
 
-    def update(self):
+    def update(self, plataformas):
         if self.flying:
             self.movimento = self.direction * self.speed
             self.rect.x += self.movimento
             self.flying = max(0, self.flying - 1)
-            
+
         elif random.random() < 0.01:
             if self.direction == 1:
                 self.direction = -1
             else:
                 self.direction = 1
-            self.flying = random.randint(30, 120) # voa por 1 a 2 segundos
+            self.flying = random.randint(30, 90) # voa por 1 a 1.5 segundos
 
+        self.aplicar_fisica(plataformas)
         self.animar_sprites()
 
     def reset(self):
