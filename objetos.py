@@ -8,6 +8,11 @@ def carregar_sons():
     global som_coleta
     som_coleta = pygame.mixer.Sound('efeitos_sonoros/coletavel.wav')
     som_coleta.set_volume(0.3)
+hit_macaco = None
+def som_hit_macaco():
+    global hit_macaco
+    hit_macaco = pygame.mixer.Sound('efeitos_sonoros/hit_macaco.wav')
+    hit_macaco.set_volume(0.5)
 
 class Glinda(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -115,6 +120,7 @@ class Inimigos(pygame.sprite.Sprite):
     def checar_colision(self, disparo):
         if self.rect.colliderect(disparo.rect):
             self.health -= 1
+            hit_macaco.play()
             disparo.kill()
             return True
         return False
@@ -228,7 +234,8 @@ class Relógio(pygame.sprite.Sprite):
         # verifica colisão entre os retângulos do relógio e da Elphaba
         if self.rect.colliderect(elphaba.rect):
             elphaba.relogios_coletados += 1
-            som_coleta.play()
+            if hit_macaco:
+                hit_macaco.play()
             return True # avisa ao main.py pra congelar o timer
         return False # não aconteceu colisão
 

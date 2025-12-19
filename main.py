@@ -6,6 +6,7 @@ from objetos import *
 from HUD import * # importa todas as funções de HUD.py
 from mapa import Mapa # importa o mapa
 from objetos import carregar_sons # importa a função do sons dos coletáveis
+from objetos import som_hit_macaco # importa som do macaco
 
 pygame.init()
 
@@ -128,18 +129,21 @@ def tocar_musica(caminho):
     if musica_atual != caminho:
         pygame.mixer.music.stop()# para a musica atual
         pygame.mixer.music.load(caminho)# troca a musica
-        pygame.mixer.music.set_volume(0.5)# volume
+        pygame.mixer.music.set_volume(0.25)# volume
         pygame.mixer.music.play(-1)# toca em looping
         musica_atual = caminho
 
 # === COMANDO ENVOLVENDO SONS ===
 carregar_sons()
+som_hit_macaco()
 game_over = pygame.mixer.Sound('efeitos_sonoros/game over.wav')
 game_over.set_volume(0.5)
 pausa = pygame.mixer.Sound('efeitos_sonoros/pausa.wav')
 pausa.set_volume(0.5)
 vitoria = pygame.mixer.Sound('efeitos_sonoros/vitoria.wav')
 vitoria.set_volume(0.5)
+hit_elphaba = pygame.mixer.Sound('efeitos_sonoros/hit_elphaba.wav')
+hit_elphaba.set_volume(0.1)
 
 # === DEFINIÇÃO DE ESTADOS ===
 MENU = "menu"
@@ -213,13 +217,13 @@ while True:
         for macaco in lista_inimigos_ativos[:]:
             if macaco.health <= 0:
                 lista_inimigos_ativos.remove(macaco) # morte do macaco #
-
         colisoes_fisicas = pygame.sprite.spritecollide(elphaba, lista_inimigos_ativos, False)
         
         for inimigo in colisoes_fisicas:  # dano por encostar na elphie #
             tempo_atual = pygame.time.get_ticks()
             if tempo_atual - elphaba.ultimo_dano > elphaba.invencivel_timer:
                 elphaba.hearts -= 1
+                hit_elphaba.play()
                 elphaba.ultimo_dano = tempo_atual 
 
             # colisão #
@@ -299,6 +303,7 @@ while True:
 
         if restart_button.desenhar_botao(tela):
             estado = MENU
+            game_over.stop()
             
             # limpa os sprites da partida anterior
             disparo_ataque.empty()
