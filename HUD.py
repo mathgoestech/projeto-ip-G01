@@ -134,6 +134,13 @@ def desenhar_game_over(tela):
     rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)
 
+# FUNÇÃO VITÓRIA #
+def desenhar_vitoria(tela):
+    fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 32)
+    texto = fonte.render("VOCÊ RESGATOU A GLINDA!", True, cor_verde) 
+    rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
+    tela.blit(texto, rect)
+
 class Button():
     def __init__(self, x, y, image, scale):
         width = image.get_width()

@@ -50,6 +50,7 @@ itens = pygame.sprite.Group()
 testando_hitbox1 = Relógio(500, 200)
 testando_hitbox2 = Elixir(800, 200)
 testando_hitbox3 = Grimmerie(1000, 200)
+glinda = Glinda(1900, piso_y - 48)
 itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 camera = [0, 0] # posição inicial da câmera
 scroller = 0
@@ -77,6 +78,7 @@ def draw(scroller=scroller):
         ataque.render(tela, offset=render_camera)
 
     elphaba.render(tela, offset=render_camera) # desenha a Elphaba na tela com o offset da câmera
+    glinda.render(tela, render_camera) # desenha a galinda #
 
     for item in itens:
         item.render(tela, render_camera) # desenha o item no mundo
@@ -119,6 +121,7 @@ tocou_game_over = False
 MENU = "menu"
 JOGANDO = "jogando"
 GAME_OVER = "game_over"
+VITORIA = "vitoria"
 estado =  MENU
 
 # === GAME LOOP PRINCIPAL ===
@@ -144,6 +147,10 @@ while True:
         # ATUALIZAÇÕES DE LÓGICA
         player.update(disparo_ataque, mapa_oz.plataformas)
         disparo_ataque.update(mapa_oz.plataformas)
+
+        # CASO DE VITORIA #
+        if elphaba.rect.colliderect(glinda.rect):
+            estado = VITORIA
 
         # CÁLCULO DE CÂMERA E TEMPO
         if timer_pausado:
@@ -180,6 +187,26 @@ while True:
 
         # DESENHO
         draw(scroller=scroller)
+
+    elif estado == VITORIA:
+        tela.fill((0, 0, 0))
+        desenhar_vitoria(tela) 
+
+        if restart_button.desenhar_botao(tela):
+            estado = MENU
+
+            elphaba.reset()
+            disparo_ataque.empty()
+            itens.empty()
+            
+            testando_hitbox1 = Relógio(500, 200)
+            testando_hitbox2 = Elixir(800, 200)
+            testando_hitbox3 = Grimmerie(1000, 200)
+            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
+            
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
 
     elif estado == GAME_OVER:
         desenhar_game_over(tela)

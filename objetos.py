@@ -8,9 +8,37 @@ def carregar_sons():
     som_coleta = pygame.mixer.Sound('efeitos_sonoros/coletavel.wav')
     som_coleta.set_volume(0.3)
 
-class Glinda():
-    def __init__(self):
-        pass
+class Glinda(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        
+        # CONTROLE DE ANIMAÇÃO DA GLINDA #
+        self.current_frame = 0
+        self.animation_speed = 0.2
+        
+        quantidade_frames = 73
+
+        # imagens da animação da glinda #
+        self.frames = []
+        for i in range(quantidade_frames):
+            img = pygame.image.load(f'imagens/sprites/glinda-idle/pixil-frame-{i}.png').convert_alpha()
+            img = pygame.transform.scale(img, (64, 64)) 
+            self.frames.append(img)
+
+        self.image = self.frames[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def animar(self):
+        self.current_frame += self.animation_speed
+        if self.current_frame >= len(self.frames):
+            self.current_frame = 0
+        self.image = self.frames[int(self.current_frame)]
+
+    def render(self, tela, offset):
+        self.animar()
+        tela.blit(self.image, (self.rect.x - offset[0], self.rect.y - offset[1]))
 
 class Inimigos():
     def __init__(self):
