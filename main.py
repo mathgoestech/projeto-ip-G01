@@ -182,8 +182,18 @@ while True:
         desenhar_game_over(tela)
         if restart_button.desenhar_botao(tela):
             estado = MENU
-            elphaba.reset()
+            
+            # limpa os sprites da partida anterior
             disparo_ataque.empty()
+            itens.empty()
+
+            # recria os itens
+            testando_hitbox1 = Relógio(500, 200)
+            testando_hitbox2 = Elixir(800, 200)
+            testando_hitbox3 = Grimmerie(1000, 200)
+            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
+
+            elphaba.reset() 
 
     pygame.display.update() # Único update necessário
     clock.tick(fps)
