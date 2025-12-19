@@ -74,7 +74,7 @@ camera = [0, 0] # posição inicial da câmera
 render_camera = [0, 0]
 
 # === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
-tempo_total = 120 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
+tempo_total = 60 # duração total do jogo em segundos (2 minutos - ajuste se necessário)
 tempo_inicial_ms = pygame.time.get_ticks() # registra o tempo em milissegundos a partir do início do loop
 clock = pygame.time.Clock() # limita a taxa de quadros por segundo
 tempo_congelado = 0

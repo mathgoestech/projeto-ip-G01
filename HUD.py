@@ -42,7 +42,7 @@ def desenhar_timer(tela, tempo_restante):
     segundos = int(tempo_restante % 60)
 
     tempo_str = f'{minutos:02}:{segundos:02}' # formata a string (zero-padding)
-    cor_tempo = cor_vermelha if tempo_restante <= 30 else cor_preta # muda a cor nos últimos 30 segundos
+    cor_tempo = cor_vermelha if tempo_restante <= 15 else cor_preta # muda a cor nos últimos 30 segundos
 
     # renderização do texto e posicionamento dinâmico
     tempo_texto = fonte.render(f"TIMER: {tempo_str}", True, cor_tempo)
