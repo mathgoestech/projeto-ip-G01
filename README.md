@@ -54,6 +54,119 @@ Maria Clara       | Programação principal, lógica do player e dos três colet
 Matheus           | Programação principal, criação das sprites dos personagens, capa do jogo, construção do mapa, implementação de personagem, tela de menu 
 Sophia            | Criação das sprites do inimigo e coletáveis, tela de menu e game over, relatório final e slides
 
+## Estrutura do Projeto
+```
+📂 PROJETO-IP-G01
+├── __pycache__
+├── efeitos sonoros
+│   ├── barulho ataque.wav
+│   ├── coletavel.wav
+│   ├── game over.wav
+│   ├── hit_elphaba.wav
+│   ├── hit_macaco.wav
+│   ├── pausa.wav
+│   ├── start.mp3
+│   ├── trilha sonora.mp3
+│   └── vitoria.wav
+├── Fonts
+│   ├── PixeloidMono.ttf
+│   ├── PixeloidSans-Bols.ttf
+│   └── PixeloidSans.ttf
+├── imagens
+│   ├── assestmapa
+│   │   ├── BG_1.png
+│   │   ├── BG_2.png
+│   │   ├── BG_3.png
+│   │   ├── Terrain_and_Props.png
+│   │   └── tilesetfloresta.png
+│   ├── backgrounds
+│   │   ├── emerald-city-path.jpg
+│   │   ├── fundo-menuprincipal.png
+│   │   └── fundocastelo.jpg
+│   ├── buttons
+│   │   ├── botao-jogar.png
+│   │   ├── botao-reiniciar.png
+│   │   ├── botao-sair.png
+│   │   └── pausa verda.png
+│   ├── gifs
+│   │   ├── elphaba-animacao.gif
+│   │   ├── glinda-animacao.gif
+│   │   ├── grimorio_gif.gif
+│   │   ├── macaco_gif.gif
+│   │   ├── pocao.gif
+│   │   └── relogio.gif
+│   ├── imagens_readme
+│   │   ├── elph_glin.png
+│   │   ├── jogando.png
+│   │   └── tela_menu.png
+│   └── sprites
+│       ├── ataque
+│       │   ├── comet1.png
+│       │   ├── comet2.png
+│       │   ├── comet3.png
+│       │   ├── comet4.png
+│       │   ├── comet5.png
+│       │   ├── comet6.png
+│       │   ├── comet7.png
+│       │   ├── comet8.png
+│       │   ├── comet9.png
+│       │   ├── comet10.png
+│       │   ├── comet11.png
+│       │   ├── comet12.png
+│       │   ├── comet13.png
+│       │   └── comet14.png
+│       ├── coletáveis
+│       │   ├── grimorio
+│       │   │   ├── grimorio_arte_principal1.png
+│       │   │   └── grimorio_arte_principal2.png
+│       │   ├── pocao de cura
+│       │   │   ├── pocao-frame-0.png
+│       │   │   ├── pocao-frame-1.png
+│       │   │   ├── pocao-frame-2.png
+│       │   │   └── pocao-frame-3.png
+│       │   ├── relogio dragao
+│       │   │   ├── relogio-frame-0.png
+│       │   │   ├── relogio-frame-1.png
+│       │   │   ├── relogio-frame-2.png
+│       │   │   └── relogio-frame-3.png
+│       │   ├── elphaba
+│       │   │   ├── elphaba-andando-1.png
+│       │   │   ├── elphaba-andando-2.png
+│       │   │   ├── elphaba-atirando.png
+│       │   │   ├── elphaba-parada-frente.png
+│       │   │   ├── elphaba-parada-lado.png
+│       │   │   ├── elphaba-pulo-1.png
+│       │   │   └── elphaba-pulo-2.png
+│       │   ├── glinda
+│       │   │   ├── glinda-bolha-frente.png
+│       │   │   ├── glinda-frente-cv.png
+│       │   │   ├── glinda-frente-sv.png
+│       │   │   ├── glinda-lado-cv.png
+│       │   │   └── glinda-lado-sv.png
+│       │   ├── hud
+│       │   │   ├── empty_heart.png
+│       │   │   └── full_heart.png
+│       │   └── macaco-voador
+│       │       ├── macaco_64x64.png
+│       │       ├── macaco_frente.png
+│       │       ├── macaco_lado_frame1.png
+│       │       ├── macaco_lado_frame2.png
+│       │       ├── macaco_lado_frame3.png
+│       │       ├── macaco_lado_frame4.png
+│       │       └── macaco_lado_frame5.png
+│       └── mapateste.tmx
+├── .gitignore
+├── HUD.py
+├── jogador.py
+├── main.py
+├── mapa.py
+├── README.md
+└── settings
+```
+
+
+
+           
 
 # Arquitetura do Código 
 A organização do código baseia-se na modularização dos arquivos, sendo eles:
