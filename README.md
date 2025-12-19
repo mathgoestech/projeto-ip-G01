@@ -68,3 +68,10 @@ Settings              | Centraliza em um único módulo as configurações das v
 
 * **Listas:** 
     >Animação das sprites, guardar coletáveis no HUD, definir elementos de colisão no mapa
+
+
+*Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele?
+
+*Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele?
+
+*Quais as lições aprendidas durante o projeto?
