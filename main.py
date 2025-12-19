@@ -150,6 +150,7 @@ while True:
                     estado = PAUSA
                 elif estado == PAUSA:
                     estado = JOGANDO
+                    pygame.mixer.music.unpause()
             if event.key == pygame.K_ESCAPE:
                 if estado == GAME_OVER or estado == PAUSA or estado == JOGANDO:
                     estado = MENU
