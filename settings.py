@@ -20,7 +20,7 @@ pulo_altura = 9 # força inicial (velocidade vertical negativa)
 
 # === CONFIGURAÇÕES DO HUD (HEADS-UP DISPLAY) ===
 cor_branca = (255, 255, 255)
-cor_vermelha = (200, 0, 0)
+cor_vermelha = (255, 0, 0)
 cor_amarela = (255, 215, 0)
 cor_rosa = (224, 60, 138)
 cor_preta = (0, 0, 0)

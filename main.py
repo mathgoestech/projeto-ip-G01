@@ -19,13 +19,15 @@ MUSICA_JOGO = 'efeitos_sonoros/trilha sonora.mp3' #a trilha do jogo
 musica_atual = None
 
 #=== CARREGAMENTO DOS BOTÕES ===
-start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
+start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha()
+play_button_img = pygame.image.load('imagens/buttons/pausa verde.png').convert_alpha()
 exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
 restart_button_img = pygame.image.load('imagens/buttons/botao-reiniciar.png').convert_alpha() #botão do restart (para o game over)
 escala_botao = 0.5
 restart_button = Button(245, 150, restart_button_img, escala_botao)
 start_button = Button(245, 150, start_button_img, escala_botao)
 exit_button = Button(245, 220, exit_button_img, escala_botao)
+play_button = Button(245, 150, play_button_img, escala_botao)
 
 # === CARREGAMENTO DO MAPA === #
 mapa_oz = Mapa('mapas/mapateste.tmx') 
@@ -115,27 +117,45 @@ game_over = pygame.mixer.Sound('efeitos_sonoros/game over.wav')
 game_over.set_volume(0.5)
 tocou_game_over = False
 
-# === Definindo estados ===
+# === DEFINIÇÃO DE ESTADOS ===
 MENU = "menu"
 JOGANDO = "jogando"
 GAME_OVER = "game_over"
-estado =  MENU
+PAUSA = "pausa"
+estado = MENU
 
 # === GAME LOOP PRINCIPAL ===
 while True:
     tela.fill((0, 0, 0))
+
     for event in pygame.event.get(): # itera sobre todos os eventos registrados pelo Pygame
+
         if event.type == pygame.QUIT: # fecha o jogo quando o 'X' da janela é clicado
             pygame.quit() # desinicializa todos os módulos do Pygame
             sys.exit() # sai do programa
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                if estado == JOGANDO:
+                    estado = PAUSA
+                elif estado == PAUSA:
+                    estado = JOGANDO
+            if event.key == pygame.K_ESCAPE:
+                if estado == GAME_OVER or estado == PAUSA or estado == JOGANDO:
+                    estado = MENU
+                elif estado == MENU:
+                    pygame.quit()
+                    sys.exit()
     
     if estado == MENU:
         tocar_musica(MUSICA_MENU)
         tela.blit(tela_menu, (0, 0))
+
         if start_button.desenhar_botao(tela): 
             estado = JOGANDO 
             tocar_musica(MUSICA_JOGO)
             tempo_inicial_ms = pygame.time.get_ticks()
+            
         if exit_button.desenhar_botao(tela):
             pygame.quit()
             sys.exit()
@@ -201,6 +221,20 @@ while True:
             itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 
             elphaba.reset() 
+
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
+
+    elif estado == PAUSA:
+        draw(scroller=scroller) 
+        desenhar_pausa(tela)
+
+        # é a mesma lógica do timer congelado: incrementa o tempo inicial
+        tempo_inicial_ms += clock.get_time()
+
+        if play_button.desenhar_botao(tela):
+            estado = JOGANDO
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()
