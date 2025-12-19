@@ -57,7 +57,7 @@ itens = pygame.sprite.Group()
 testando_hitbox1 = Relógio(500, 200)
 testando_hitbox2 = Elixir(800, 200)
 testando_hitbox3 = Grimmerie(1000, 200)
-glinda = Glinda(1900, piso_y - 48)
+glinda = Glinda(2300, 255)
 itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 camera = [0, 0] # posição inicial da câmera
 scroller = 0
