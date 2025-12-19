@@ -198,6 +198,9 @@ class Elphaba(pygame.sprite.Sprite):
         self.is_jumping = False
         self.is_moving = False
         self.is_shooting = False
+        self.relogios_coletados = 0
+        self.grimorios_coletados = 0
+        self.pocoes_coletadas = 0
 
     def render(self, tela, offset=(0, 0)):
         desenho_x = self.rect.centerx - (self.width / 2) - offset[0]
