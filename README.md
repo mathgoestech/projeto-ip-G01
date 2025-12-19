@@ -1,4 +1,4 @@
-# **Resgate RelampagOz**
+# **Resgate RelampagOz🧙🏽👸🏼**
 
 Não há tempo a perder! Vidas estão em jogo, e Elphaba precisa resgatar Glinda antes que o tempo acabe. Mas não ache que é tão fácil assim... A floresta da Terra de Oz está cheia de macacos voadores e áreas perigosas que podem custar a vida de Elphaba. Colete grimórios para recarregar seus feitiços, poções de cura para recuperar a vida e relógios do dragão para parar o tempo... Salve a Glinda!!
 
@@ -17,6 +17,8 @@ Não há tempo a perder! Vidas estão em jogo, e Elphaba precisa resgatar Glinda
 
 ### Personagens
 **Player principal:** Elphaba, a bruxa má do Oeste.
+
+**Inimigo:** Macaco Voador <img src="imagens/gifs/macaco_gif.gif" width="10%">
 
 ## Equipe
 * Arthur Araújo do Nascimento (aan5@cin.ufpe.br)
