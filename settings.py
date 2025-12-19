@@ -14,6 +14,13 @@ elph_altura = 64
 elph_x = 50
 elph_y = 100
 
+# === PROPRIEDADES DOS INIMIGOS ===
+inimigo_velocidade = 1.5
+inimigo_largura = 64
+inimigo_altura = 64
+inimigos_pos = [(645, 255), (960, 200), (245,360), (1540, 225), (1580, 320)]
+inimigos_qnt = len(inimigos_pos)
+
 # === FÍSICA DO MOVIMENTO VERTICAL (GRAVIDADE E PULO) ===
 gravidade = 0.5 # aceleração vertical aplicada a cada frame
 pulo_altura = 9 # força inicial (velocidade vertical negativa)

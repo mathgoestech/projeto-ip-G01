@@ -36,17 +36,21 @@ mapa_oz = Mapa('mapas/mapateste.tmx')
 BG1 = pygame.image.load('imagens/backgrounds/fundo-menuprincipal.png')
 tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
-tela_fundo = pygame.transform.scale(BG, (tela_largura, tela_altura))
-tela_fundo1 = pygame.transform.scale(BG, (tela_largura, tela_altura))
-tela_fundo2 = pygame.transform.scale(BG, (tela_largura, tela_altura))
-fundos_loop = [tela_fundo, tela_fundo1, tela_fundo2]
-fundos_pos = [0, -tela_largura, tela_largura]
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
 elphaba = Elphaba(elph_x, 100) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
+
+lista_inimigos = []
+for i in range(inimigos_qnt):
+    x, y = inimigos_pos[i]
+    macaco = Inimigos(x, y)
+    lista_inimigos.append(macaco)
+inimigo = pygame.sprite.Group()
+inimigo.add(lista_inimigos)
+
 disparo_ataque = pygame.sprite.Group()
 itens = pygame.sprite.Group()
 testando_hitbox1 = Relógio(500, 200)
@@ -65,14 +69,14 @@ tempo_congelado = 0
 timer_pausado = False
 
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
-def draw(scroller=scroller):
+def draw():
     global timer_pausado, tempo_congelado
 
-    for i in range(3):
-        pos_x_parallax = (fundos_pos[i] - camera[0] * 0.5) 
-        tela.blit(fundos_loop[i], (pos_x_parallax, 0 - camera[1]))
-
     mapa_oz.render(tela, render_camera)
+
+    #render dos inimigos
+    for macaco in lista_inimigos:
+        macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
 
     # desenha os ataques na tela com o offset da câmera
     for ataque in disparo_ataque:
@@ -199,7 +203,7 @@ while True:
             scroller = 0
 
         # DESENHO
-        draw(scroller=scroller)
+        draw()
 
     elif estado == GAME_OVER:
         desenhar_game_over(tela)
@@ -227,7 +231,7 @@ while True:
             sys.exit()
 
     elif estado == PAUSA:
-        draw(scroller=scroller) 
+        draw() 
         desenhar_pausa(tela)
 
         # é a mesma lógica do timer congelado: incrementa o tempo inicial
