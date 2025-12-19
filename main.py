@@ -123,10 +123,10 @@ def tocar_musica(caminho):
 carregar_sons()
 game_over = pygame.mixer.Sound('efeitos_sonoros/game over.wav')
 game_over.set_volume(0.5)
-tocou_game_over = False # para não ficar repetindo
 pausa = pygame.mixer.Sound('efeitos_sonoros/pausa.wav')
 pausa.set_volume(0.5)
-pausou = False
+vitoria = pygame.mixer.Sound('efeitos_sonoros/vitoria.wav')
+vitoria.set_volume(0.5)
 
 # === DEFINIÇÃO DE ESTADOS ===
 MENU = "menu"
@@ -150,9 +150,12 @@ while True:
             if event.key == pygame.K_p:
                 if estado == JOGANDO:
                     estado = PAUSA
+                    pausa.play()
                 elif estado == PAUSA:
                     estado = JOGANDO
                     pygame.mixer.music.unpause()
+                    pausa.play()
+
             if event.key == pygame.K_ESCAPE:
                 if estado == GAME_OVER or estado == PAUSA or estado == JOGANDO:
                     estado = MENU
@@ -181,6 +184,7 @@ while True:
         # CASO DE VITORIA #
         if elphaba.rect.colliderect(glinda.rect):
             estado = VITORIA
+            vitoria.play()
 
         # CÁLCULO DE CÂMERA E TEMPO
         if timer_pausado:
@@ -193,7 +197,9 @@ while True:
         tempo_decorrido = (pygame.time.get_ticks() - tempo_inicial_ms) / 1000
         tempo_restante = tempo_total - tempo_decorrido
         
-        if tempo_restante <= 0: estado = GAME_OVER
+        if tempo_restante <= 0:
+            estado = GAME_OVER
+            game_over.play()
 
         # cálculo da câmera
         camera[0] += (elphaba.rect.centerx - tela_largura / 2 - camera[0])
@@ -220,30 +226,12 @@ while True:
 
     elif estado == VITORIA:
         tela.fill((0, 0, 0))
-        desenhar_vitoria(tela) 
+        desenhar_vitoria(tela)
+        pygame.mixer.music.stop()
 
         if restart_button.desenhar_botao(tela):
             estado = MENU
-
-            elphaba.reset()
-            disparo_ataque.empty()
-            itens.empty()
-            
-            testando_hitbox1 = Relógio(500, 200)
-            testando_hitbox2 = Elixir(800, 200)
-            testando_hitbox3 = Grimmerie(1000, 200)
-            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
-            
-        if exit_button.desenhar_botao(tela):
-            pygame.quit()
-            sys.exit()
-
-    elif estado == VITORIA:
-        tela.fill((0, 0, 0))
-        desenhar_vitoria(tela) 
-
-        if restart_button.desenhar_botao(tela):
-            estado = MENU
+            vitoria.stop()
 
             elphaba.reset()
             disparo_ataque.empty()
@@ -261,9 +249,7 @@ while True:
     elif estado == GAME_OVER:
         desenhar_game_over(tela)
         pygame.mixer.music.stop() # para a musica atual
-        if not tocou_game_over:
-            game_over.play()
-            tocou_game_over = True
+
         if restart_button.desenhar_botao(tela):
             estado = MENU
             
@@ -295,10 +281,6 @@ while True:
         draw() 
         desenhar_pausa(tela)
         pygame.mixer.music.pause() # pausa a musica
-        
-        if not pausou:
-            pausa.play()
-            pausou = True
 
         # é a mesma lógica do timer congelado: incrementa o tempo inicial
         tempo_inicial_ms += clock.get_time()
