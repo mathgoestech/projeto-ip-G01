@@ -1,4 +1,5 @@
 import pygame
+import random
 from settings import * # importa todas as constantes de settings.py
 
 # fUNÇÃO PRO SOM PRA COLETA
@@ -90,14 +91,34 @@ class Inimigos(pygame.sprite.Sprite):
 
         self.gravity = gravidade
         self.is_targeting = False
+        self.flying = 0
         self.direction = 1 # 1 para direita, -1 para esquerda
 
         # VARIÁVEIS DE ANIMAÇÃO
         self.current_frame = 0
         self.animation_speed = 0.1
 
+    def aplicar_fisica(self, plataformas):
+
+        # COLISÃO PLATAFORMAS
+        colisoes = pygame.sprite.spritecollide(self, plataformas, False)
+        for bloco in colisoes:
+            if self.rect.bottom <= bloco.rect.bottom:
+                self.rect.bottom = bloco.rect.top
+                self.flying = 0
+            elif self.rect.top >= bloco.rect.top:
+                self.rect.top = bloco.rect.bottom
+                self.flying = 0
+
+            if self.rect.right >= bloco.rect.right:
+                self.rect.right = bloco.rect.left
+                self.direction *= -1
+            elif self.rect.left <= bloco.rect.left:
+                self.rect.left = bloco.rect.right
+                self.direction *= -1
+
     def animar_sprites(self):
-        if self.is_targeting:
+        if self.flying:
             self.current_frame += self.animation_speed
 
             # loop de animação: se a sequência de frames chegar ao fim, volta pro início
@@ -112,7 +133,20 @@ class Inimigos(pygame.sprite.Sprite):
         else:
             self.image = self.animations['idle']
 
-    def update(self):
+    def update(self, plataformas):
+        if self.flying:
+            self.movimento = self.direction * self.speed
+            self.rect.x += self.movimento
+            self.flying = max(0, self.flying - 1)
+
+        elif random.random() < 0.01:
+            if self.direction == 1:
+                self.direction = -1
+            else:
+                self.direction = 1
+            self.flying = random.randint(30, 90) # voa por 1 a 1.5 segundos
+
+        self.aplicar_fisica(plataformas)
         self.animar_sprites()
 
     def reset(self):

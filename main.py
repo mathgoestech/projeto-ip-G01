@@ -50,6 +50,7 @@ for i in range(inimigos_qnt):
     lista_inimigos.append(macaco)
 inimigo = pygame.sprite.Group()
 inimigo.add(lista_inimigos)
+lista_inimigos_ativos = lista_inimigos.copy()
 
 disparo_ataque = pygame.sprite.Group()
 itens = pygame.sprite.Group()
@@ -76,7 +77,8 @@ def draw():
     mapa_oz.render(tela, render_camera)
 
     #render dos inimigos
-    for macaco in lista_inimigos:
+    for macaco in lista_inimigos_ativos:
+        macaco.update(mapa_oz.plataformas)
         macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
 
     # desenha os ataques na tela com o offset da câmera
@@ -150,6 +152,7 @@ while True:
                     estado = PAUSA
                 elif estado == PAUSA:
                     estado = JOGANDO
+                    pygame.mixer.music.unpause()
             if event.key == pygame.K_ESCAPE:
                 if estado == GAME_OVER or estado == PAUSA or estado == JOGANDO:
                     estado = MENU
@@ -274,7 +277,15 @@ while True:
             testando_hitbox3 = Grimmerie(1000, 200)
             itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 
-            elphaba.reset() 
+            elphaba.reset()
+
+            # recria os inimigos
+            lista_inimigos_ativos.clear()
+            for i in range(inimigos_qnt):
+                x, y = inimigos_pos[i]
+                macaco = Inimigos(x, y)
+                lista_inimigos_ativos.append(macaco)
+
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()
