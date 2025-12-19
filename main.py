@@ -78,6 +78,7 @@ def draw():
 
     #render dos inimigos
     for macaco in lista_inimigos_ativos:
+        macaco.update()
         macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
 
     # desenha os ataques na tela com o offset da câmera

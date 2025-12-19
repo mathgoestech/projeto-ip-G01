@@ -1,4 +1,5 @@
 import pygame
+import random
 from settings import * # importa todas as constantes de settings.py
 
 # fUNÇÃO PRO SOM PRA COLETA
@@ -90,6 +91,7 @@ class Inimigos(pygame.sprite.Sprite):
 
         self.gravity = gravidade
         self.is_targeting = False
+        self.flying = 0
         self.direction = 1 # 1 para direita, -1 para esquerda
 
         # VARIÁVEIS DE ANIMAÇÃO
@@ -97,7 +99,7 @@ class Inimigos(pygame.sprite.Sprite):
         self.animation_speed = 0.1
 
     def animar_sprites(self):
-        if self.is_targeting:
+        if self.flying:
             self.current_frame += self.animation_speed
 
             # loop de animação: se a sequência de frames chegar ao fim, volta pro início
@@ -113,6 +115,18 @@ class Inimigos(pygame.sprite.Sprite):
             self.image = self.animations['idle']
 
     def update(self):
+        if self.flying:
+            self.movimento = self.direction * self.speed
+            self.rect.x += self.movimento
+            self.flying = max(0, self.flying - 1)
+            
+        elif random.random() < 0.01:
+            if self.direction == 1:
+                self.direction = -1
+            else:
+                self.direction = 1
+            self.flying = random.randint(30, 120) # voa por 1 a 2 segundos
+
         self.animar_sprites()
 
     def reset(self):
