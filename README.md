@@ -16,9 +16,15 @@ Não há tempo a perder! Vidas estão em jogo, e Elphaba precisa resgatar Glinda
 **Objetivo do jogo:** Glinda foi sequestrada e encontra-se cercada por macacos voadores. Agora, Elphaba precisa enfrentar esses lacaios e atravessar os perigos do caminho para resgatá-la em segurança. O jogo termina quando Elphaba alcança Glinda.
 
 ### Personagens
-**Player principal:** Elphaba, a bruxa má do Oeste.
+**Player principal:** Elphaba, a bruxa má do Oeste. <img src="imagens/gifs/elphaba-animacao.gif" width="10%">
 
-**Inimigo:** Macaco Voador <img src="imagens/gifs/macaco_gif.gif" width="10%">
+**Objetivo do resgate:** Glinda, a bruxa boa. <img src="imagens/gifs/glinda-animacao.gif" width="10%">
+
+**Inimigo:** Macaco Voador. <img src="imagens/gifs/macaco_gif.gif" width="10%">
+
+### Coletáveis
+**Recarga de munição:** Grimório da Elphaba. <img src="imagens/gifs/grimorio_gif.gif" width="10%">
+
 
 ## Equipe
 * Arthur Araújo do Nascimento (aan5@cin.ufpe.br)
@@ -71,7 +77,7 @@ Settings              | Centraliza em um único módulo as configurações das v
 
 
 *Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele?
-
+não ter feitos mais reuniões em grupo, pois o tempo 
 *Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele?
 
 *Quais as lições aprendidas durante o projeto?
