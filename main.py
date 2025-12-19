@@ -32,6 +32,20 @@ play_button = Button(245, 150, play_button_img, escala_botao)
 # === CARREGAMENTO DO MAPA === #
 mapa_oz = Mapa('mapas/mapateste.tmx') 
 
+def criar_itens():
+    grupo_itens = pygame.sprite.Group()
+    
+    # Cria os relógios
+    for pos in relogios_pos:
+        grupo_itens.add(Relógio(pos[0], pos[1]))
+    # Cria os elixires
+    for pos in elixires_pos:
+        grupo_itens.add(Elixir(pos[0], pos[1]))
+    # Cria os grimórios
+    for pos in grimorios_pos:
+        grupo_itens.add(Grimmerie(pos[0], pos[1]))
+    return grupo_itens
+
 # === CARREGAMENTO E CONFIGURAÇÃO DO FUNDO ===
 BG1 = pygame.image.load('imagens/backgrounds/fundo-menuprincipal.png')
 tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
@@ -54,11 +68,8 @@ lista_inimigos_ativos = lista_inimigos.copy()
 
 disparo_ataque = pygame.sprite.Group()
 itens = pygame.sprite.Group()
-testando_hitbox1 = Relógio(500, 200)
-testando_hitbox2 = Elixir(800, 200)
-testando_hitbox3 = Grimmerie(1000, 200)
+itens = criar_itens()
 glinda = Glinda(2300, 255)
-itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 camera = [0, 0] # posição inicial da câmera
 render_camera = [0, 0]
 
@@ -268,16 +279,14 @@ while True:
             disparo_ataque.empty()
             itens.empty()
             
-            testando_hitbox1 = Relógio(500, 200)
-            testando_hitbox2 = Elixir(800, 200)
-            testando_hitbox3 = Grimmerie(1000, 200)
-            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
-            
             lista_inimigos_ativos.clear()
             for i in range(inimigos_qnt):
                 x, y = inimigos_pos[i]
                 macaco = Inimigos(x, y)
                 lista_inimigos_ativos.append(macaco)
+
+            itens.empty() 
+            itens = criar_itens() 
 
 
         if exit_button.desenhar_botao(tela):
@@ -296,10 +305,8 @@ while True:
             itens.empty()
 
             # recria os itens
-            testando_hitbox1 = Relógio(500, 200)
-            testando_hitbox2 = Elixir(800, 200)
-            testando_hitbox3 = Grimmerie(1000, 200)
-            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
+            itens.empty() # Limpa os velhos
+            itens = criar_itens() # Cria os novos nas posições certas do settings
 
             elphaba.reset()
 

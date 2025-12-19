@@ -20,6 +20,9 @@ inimigo_largura = 64
 inimigo_altura = 64
 inimigos_pos = [(225, 350), (402, 309), (523, 311), (661, 188), (1126, 241), (1446, 224), (1866, 250), (2127, 331), (2248, 306)]
 inimigos_qnt = len(inimigos_pos)
+relogios_pos = [(662, 184),]
+elixires_pos = [(800, 200)]
+grimorios_pos = [(373, 307), (560, 93), (673, 248), (983, 267), (1620, 226), (1906, 337)]
 
 # === FÍSICA DO MOVIMENTO VERTICAL (GRAVIDADE E PULO) ===
 gravidade = 0.35 # aceleração vertical aplicada a cada frame

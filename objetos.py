@@ -49,8 +49,8 @@ class Inimigos(pygame.sprite.Sprite):
         self.width = inimigo_largura
         self.height = inimigo_altura
         self.speed = inimigo_velocidade # velocidade de movimento
-        self.health = 3 # vida inicial do inimigo (ajuste se necessário)
-
+        self.health = 2 # vida inicial do inimigo 
+        
         # MOVIMENTO DE PATRULHA #
         self.patrol_distance = 30
         self.wait_time = 180
