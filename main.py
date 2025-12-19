@@ -60,7 +60,6 @@ testando_hitbox3 = Grimmerie(1000, 200)
 glinda = Glinda(2300, 255)
 itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 camera = [0, 0] # posição inicial da câmera
-scroller = 0
 render_camera = [0, 0]
 
 # === INICIALIZAÇÃO DO TEMPO E CONTROLE DE LOOP ===
@@ -78,7 +77,7 @@ def draw():
 
     #render dos inimigos
     for macaco in lista_inimigos_ativos:
-        macaco.update(mapa_oz.plataformas)
+        macaco.update(mapa_oz.plataformas, disparo_ataque)
         macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
 
     # desenha os ataques na tela com o offset da câmera
@@ -209,12 +208,6 @@ while True:
 
         render_camera = (int(camera[0]), int(camera[1]))
 
-        # ajuste do Parallax
-        if elphaba.is_moving:
-            scroller -= elphaba.direction * elphaba.speed
-        if scroller < -tela_largura or scroller > tela_largura:
-            scroller = 0
-
         # DESENHO
         draw()
 
@@ -254,6 +247,13 @@ while True:
             testando_hitbox3 = Grimmerie(1000, 200)
             itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
             
+            lista_inimigos_ativos.clear()
+            for i in range(inimigos_qnt):
+                x, y = inimigos_pos[i]
+                macaco = Inimigos(x, y)
+                lista_inimigos_ativos.append(macaco)
+
+
         if exit_button.desenhar_botao(tela):
             pygame.quit()
             sys.exit()

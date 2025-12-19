@@ -117,6 +117,12 @@ class Inimigos(pygame.sprite.Sprite):
                 self.rect.left = bloco.rect.right
                 self.direction *= -1
 
+    def checar_colision(self, disparo):
+        if self.rect.colliderect(disparo.rect):
+            self.health -= 1
+            return True
+        return False
+
     def animar_sprites(self):
         if self.flying:
             self.current_frame += self.animation_speed
@@ -133,7 +139,14 @@ class Inimigos(pygame.sprite.Sprite):
         else:
             self.image = self.animations['idle']
 
-    def update(self, plataformas):
+    def update(self, plataformas, disparo):
+
+        # verifica colisão com o disparo
+        for ataque in disparo:
+            if self.checar_colision(ataque):
+                self.kill()
+                print("Inimigo atingido!")
+
         if self.flying:
             self.movimento = self.direction * self.speed
             self.rect.x += self.movimento
