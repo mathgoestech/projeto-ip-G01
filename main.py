@@ -39,7 +39,7 @@ BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
-elphaba = Elphaba(elph_x, 100) # cria o objeto Elphaba
+elphaba = Elphaba(elph_x, elph_y) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
 
@@ -191,6 +191,12 @@ while True:
         # ATUALIZAÇÕES DE LÓGICA
         player.update(disparo_ataque, mapa_oz.plataformas)
         disparo_ataque.update(mapa_oz.plataformas)
+
+        # MORTE POR ÁGUA #
+        if pygame.sprite.spritecollide(elphaba, mapa_oz.agua, False):
+            elphaba.hearts = 0 # Zera a vida visualmente
+            estado = GAME_OVER
+            game_over.play()
 
         # COLISÃO E MORTE DOS INIMIGOS #
         for macaco in lista_inimigos_ativos[:]:

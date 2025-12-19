@@ -12,14 +12,15 @@ class Bloco(pygame.sprite.Sprite):
 class Mapa:
     def __init__(self, arquivo_tmx): # carrega o arquivo do tiled #
         self.tmx_data = pytmx.load_pygame(arquivo_tmx, pixelalpha=True)
-        self.plataformas = pygame.sprite.Group() 
+        self.plataformas = pygame.sprite.Group()
+        self.agua = pygame.sprite.Group() 
         self.ler_camadas_colisao()
 
     def ler_camadas_colisao(self):
         nomes_camadas = ["Platform", "Bridge", "Water"] # tiles com colisão baseado na categoria do tiled #
 
         for nome in nomes_camadas:
-            try:
+            if nome in self.tmx_data.layernames:
                 camada = self.tmx_data.get_layer_by_name(nome)
                 
                 for x, y, gid in camada:
@@ -28,10 +29,12 @@ class Mapa:
                         pixel_y = y * self.tmx_data.tileheight
                         
                         novo_bloco = Bloco(pixel_x, pixel_y, self.tmx_data.tilewidth, self.tmx_data.tileheight)
-                        self.plataformas.add(novo_bloco)
                         
-            except ValueError:
-                print(f"Value Error :<, olha o módulo de mapa aí pfv.")
+                        # separa a água
+                        if nome == "Water":
+                            self.agua.add(novo_bloco)
+                        else:
+                            self.plataformas.add(novo_bloco)
 
     # RENDER DO MAPA (VISUAL :P)
     def render(self, tela, offset):

@@ -11,8 +11,8 @@ fps = 60 # determina a velocidade máxima de atualização da tela
 elph_velocidade = 2.5 # determina o quão rápida a Elphie se move na horizontal
 elph_largura = 64
 elph_altura = 64
-elph_x = 50
-elph_y = 100
+elph_x = 95
+elph_y = 335
 
 # === PROPRIEDADES DOS INIMIGOS ===
 inimigo_velocidade = 1.5

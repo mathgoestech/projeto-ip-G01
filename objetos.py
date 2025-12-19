@@ -53,7 +53,7 @@ class Inimigos(pygame.sprite.Sprite):
 
         # MOVIMENTO DE PATRULHA #
         self.patrol_distance = 30
-        self.wait_time = 240
+        self.wait_time = 180
         self.speed = 2
         self.origin_x = x 
         self.timer_espera = 0     
@@ -162,12 +162,12 @@ class Inimigos(pygame.sprite.Sprite):
             # limite direito
             if self.rect.centerx > self.origin_x + self.patrol_distance:
                 self.direction = -1 
-                self.timer_espera = 240
+                self.timer_espera = 180
             
             # limite esquerdo
             elif self.rect.centerx < self.origin_x - self.patrol_distance:
                 self.direction = 1 
-                self.timer_espera = 240
+                self.timer_espera = 180
 
         self.aplicar_fisica(plataformas)
         self.animar_sprites()
@@ -208,8 +208,6 @@ class Relógio(pygame.sprite.Sprite):
         # CONFIGURAÇÕES DE IMAGEM E HITBOX
         self.image = self.frames[int(self.current_frame)]
         self.rect = self.image.get_rect()
-
-        # co
 
         # COORDENADAS INICIAIS NO MAPA
         self.rect.x = x

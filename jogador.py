@@ -65,7 +65,7 @@ class Elphaba(pygame.sprite.Sprite):
         largura_hitbox = self.width * 0.15
         altura_hitbox = self.height * 0.45
         
-        self.rect = pygame.Rect(0, 0, largura_hitbox, altura_hitbox)
+        self.rect = pygame.Rect(elph_x, elph_y, largura_hitbox, altura_hitbox)
 
         # VARIÁVEIS DE FÍSICA E ESTADO DE MOVIMENTO
         self.gravity = gravidade
