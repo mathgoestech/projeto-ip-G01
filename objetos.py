@@ -51,6 +51,14 @@ class Inimigos(pygame.sprite.Sprite):
         self.speed = inimigo_velocidade # velocidade de movimento
         self.health = 3 # vida inicial do inimigo (ajuste se necessário)
 
+        # MOVIMENTO DE PATRULHA #
+        self.patrol_distance = 30
+        self.wait_time = 240
+        self.speed = 2
+        self.origin_x = x 
+        self.timer_espera = 0     
+        self.direction = 1        
+
         # DEFINIÇÃO DAS ANIMAÇÕES
         self.animations = {
             'idle' : pygame.transform.scale(
@@ -83,11 +91,10 @@ class Inimigos(pygame.sprite.Sprite):
 
         # CONFIGURAÇÕES DE IMAGEM E HITBOX
         self.image = self.animations['idle']
-
-        largura_hitbox = self.width * 0.15
+        largura_hitbox = self.width * 0.30
         altura_hitbox = self.height * 0.45
-
-        self.rect = pygame.Rect(x, y, largura_hitbox, altura_hitbox)
+        self.rect = pygame.Rect(0, 0, largura_hitbox, altura_hitbox)
+        self.rect.center = (x, y)
 
         self.gravity = gravidade
         self.is_targeting = False
@@ -100,31 +107,24 @@ class Inimigos(pygame.sprite.Sprite):
 
     def aplicar_fisica(self, plataformas):
 
-        # COLISÃO PLATAFORMAS
-        colisoes = pygame.sprite.spritecollide(self, plataformas, False)
-        for bloco in colisoes:
-            if self.rect.bottom <= bloco.rect.bottom:
-                self.rect.bottom = bloco.rect.top
-                self.flying = 0
-            elif self.rect.top >= bloco.rect.top:
-                self.rect.top = bloco.rect.bottom
-                self.flying = 0
-
-            if self.rect.right >= bloco.rect.right:
-                self.rect.right = bloco.rect.left
-                self.direction *= -1
-            elif self.rect.left <= bloco.rect.left:
-                self.rect.left = bloco.rect.right
-                self.direction *= -1
+        if pygame.sprite.spritecollideany(self, plataformas):
+            self.rect.x -= self.direction * 5 
+            self.timer_espera = self.wait_time
+            self.direction *= -1
 
     def checar_colision(self, disparo):
         if self.rect.colliderect(disparo.rect):
             self.health -= 1
+            disparo.kill()
             return True
         return False
 
     def animar_sprites(self):
-        if self.flying:
+
+        if self.timer_espera > 0:
+            self.image = self.animations['idle']
+
+        else:
             self.current_frame += self.animation_speed
 
             # loop de animação: se a sequência de frames chegar ao fim, volta pro início
@@ -136,8 +136,6 @@ class Inimigos(pygame.sprite.Sprite):
             if self.direction == -1:
                 self.image = pygame.transform.flip(self.image, True, False)
 
-        else:
-            self.image = self.animations['idle']
 
     def update(self, plataformas, disparo):
 
@@ -147,17 +145,29 @@ class Inimigos(pygame.sprite.Sprite):
                 self.kill()
                 print("Inimigo atingido!")
 
-        if self.flying:
+        # caso de morte #
+        if self.health <= 0: 
+            self.kill()
+
+        # timer da patrulha #
+        if self.timer_espera > 0:
+            self.timer_espera -= 1
+            self.flying = 0 
+
+        else:
+            self.flying = 1 
             self.movimento = self.direction * self.speed
             self.rect.x += self.movimento
-            self.flying = max(0, self.flying - 1)
 
-        elif random.random() < 0.01:
-            if self.direction == 1:
-                self.direction = -1
-            else:
-                self.direction = 1
-            self.flying = random.randint(30, 90) # voa por 1 a 1.5 segundos
+            # limite direito
+            if self.rect.centerx > self.origin_x + self.patrol_distance:
+                self.direction = -1 
+                self.timer_espera = 240
+            
+            # limite esquerdo
+            elif self.rect.centerx < self.origin_x - self.patrol_distance:
+                self.direction = 1 
+                self.timer_espera = 240
 
         self.aplicar_fisica(plataformas)
         self.animar_sprites()
@@ -170,10 +180,11 @@ class Inimigos(pygame.sprite.Sprite):
         self.is_targeting = False
 
     def render(self, tela, offset=(0, 0)):
-        desenho_x = self.rect.centerx - (self.width / 2) - offset[0]
-        desenho_y = self.rect.bottom - self.height - offset[1]
+        posicao_centro_x = self.rect.centerx - offset[0]
+        posicao_centro_y = self.rect.centery - offset[1]
 
-        tela.blit(self.image, (desenho_x, desenho_y))
+        rect_desenho = self.image.get_rect(center=(posicao_centro_x, posicao_centro_y))
+        tela.blit(self.image, rect_desenho)
 
 class Relógio(pygame.sprite.Sprite):
     def __init__(self, x, y):

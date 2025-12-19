@@ -72,13 +72,16 @@ timer_pausado = False
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
 def draw():
     global timer_pausado, tempo_congelado
-
     mapa_oz.render(tela, render_camera)
 
     #render dos inimigos
     for macaco in lista_inimigos_ativos:
         macaco.update(mapa_oz.plataformas, disparo_ataque)
-        macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
+
+        if macaco.health <= 0:
+            lista_inimigos_ativos.remove(macaco)
+        else:
+            macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
 
     # desenha os ataques na tela com o offset da câmera
     for ataque in disparo_ataque:
@@ -161,6 +164,15 @@ while True:
                 elif estado == MENU:
                     pygame.quit()
                     sys.exit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 3: 
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                
+                coord_mapa_x = mouse_x + render_camera[0]
+                coord_mapa_y = mouse_y + render_camera[1]
+                
+                print(f"COORDENADA CLICADA: ({coord_mapa_x}, {coord_mapa_y})")
     
     if estado == MENU:
         tocar_musica(MUSICA_MENU)
@@ -179,6 +191,26 @@ while True:
         # ATUALIZAÇÕES DE LÓGICA
         player.update(disparo_ataque, mapa_oz.plataformas)
         disparo_ataque.update(mapa_oz.plataformas)
+
+        # COLISÃO E MORTE DOS INIMIGOS #
+        for macaco in lista_inimigos_ativos[:]:
+            if macaco.health <= 0:
+                lista_inimigos_ativos.remove(macaco) # morte do macaco #
+
+        colisoes_fisicas = pygame.sprite.spritecollide(elphaba, lista_inimigos_ativos, False)
+        
+        for inimigo in colisoes_fisicas:  # dano por encostar na elphie #
+            tempo_atual = pygame.time.get_ticks()
+            if tempo_atual - elphaba.ultimo_dano > elphaba.invencivel_timer:
+                elphaba.hearts -= 1
+                elphaba.ultimo_dano = tempo_atual 
+
+            # colisão #
+            if elphaba.rect.centerx < inimigo.rect.centerx:
+                elphaba.rect.right = inimigo.rect.left
+            else:
+                elphaba.rect.left = inimigo.rect.right
+
 
         # CASO DE VITORIA #
         if elphaba.rect.colliderect(glinda.rect):

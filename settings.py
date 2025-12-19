@@ -18,7 +18,7 @@ elph_y = 100
 inimigo_velocidade = 1.5
 inimigo_largura = 64
 inimigo_altura = 64
-inimigos_pos = [(645, 255), (960, 200), (245,360), (1540, 225), (1580, 320)]
+inimigos_pos = [(225, 350), (402, 309), (523, 311), (661, 188), (1126, 241), (1446, 224), (1866, 250), (2127, 331), (2248, 306)]
 inimigos_qnt = len(inimigos_pos)
 
 # === FÍSICA DO MOVIMENTO VERTICAL (GRAVIDADE E PULO) ===

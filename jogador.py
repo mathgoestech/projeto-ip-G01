@@ -9,6 +9,8 @@ class Elphaba(pygame.sprite.Sprite):
         self.width = elph_largura
         self.height = elph_altura
         self.speed = elph_velocidade # velocidade horizontal
+        self.ultimo_dano = 0 
+        self.invencivel_timer = 1000 # invencibilidade depois do dano #
 
         # ATRIBUTOS DE HUD (STATUS DO PLAYER)
         self.max_hearts = 8
