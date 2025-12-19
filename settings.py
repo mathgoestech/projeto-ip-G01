@@ -25,8 +25,8 @@ elixires_pos = [(800, 200), (1900, 230)]
 grimorios_pos = [(373, 307), (560, 93), (673, 248), (983, 267), (1620, 226), (1906, 337)]
 
 # === FÍSICA DO MOVIMENTO VERTICAL (GRAVIDADE E PULO) ===
-gravidade = 0.30 # aceleração vertical aplicada a cada frame
-pulo_altura = 6.5 # força inicial (velocidade vertical negativa)
+gravidade = 0.26 # aceleração vertical aplicada a cada frame
+pulo_altura = 6.8 # força inicial (velocidade vertical negativa)
 
 # === CONFIGURAÇÕES DO HUD (HEADS-UP DISPLAY) ===
 cor_branca = (255, 255, 255)
