@@ -23,7 +23,7 @@ start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_
 exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
 restart_button_img = pygame.image.load('imagens/buttons/botao-reiniciar.png').convert_alpha() #botão do restart (para o game over)
 escala_botao = 0.5
-restart_button = Button(230, 180, restart_button_img, escala_botao)
+restart_button = Button(245, 150, restart_button_img, escala_botao)
 start_button = Button(245, 150, start_button_img, escala_botao)
 exit_button = Button(245, 220, exit_button_img, escala_botao)
 
@@ -189,8 +189,22 @@ while True:
             tocou_game_over = True
         if restart_button.desenhar_botao(tela):
             estado = MENU
-            elphaba.reset()
+            
+            # limpa os sprites da partida anterior
             disparo_ataque.empty()
+            itens.empty()
+
+            # recria os itens
+            testando_hitbox1 = Relógio(500, 200)
+            testando_hitbox2 = Elixir(800, 200)
+            testando_hitbox3 = Grimmerie(1000, 200)
+            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
+
+            elphaba.reset() 
+
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
 
     pygame.display.update() # Único update necessário
     clock.tick(fps)
