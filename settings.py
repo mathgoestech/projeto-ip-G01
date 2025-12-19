@@ -8,7 +8,7 @@ título = 'Resgate RelâmpagOZ'
 fps = 60 # determina a velocidade máxima de atualização da tela
 
 # === PROPRIEDADES BASE DA ELPHIE (PLAYER) ===
-elph_velocidade = 2 # determina o quão rápida a Elphie se move na horizontal
+elph_velocidade = 2.5 # determina o quão rápida a Elphie se move na horizontal
 elph_largura = 64
 elph_altura = 64
 elph_x = 50
@@ -22,8 +22,8 @@ inimigos_pos = [(645, 255), (960, 200), (245,360), (1540, 225), (1580, 320)]
 inimigos_qnt = len(inimigos_pos)
 
 # === FÍSICA DO MOVIMENTO VERTICAL (GRAVIDADE E PULO) ===
-gravidade = 0.5 # aceleração vertical aplicada a cada frame
-pulo_altura = 9 # força inicial (velocidade vertical negativa)
+gravidade = 0.35 # aceleração vertical aplicada a cada frame
+pulo_altura = 6 # força inicial (velocidade vertical negativa)
 
 # === CONFIGURAÇÕES DO HUD (HEADS-UP DISPLAY) ===
 cor_branca = (255, 255, 255)
