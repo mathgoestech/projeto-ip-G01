@@ -146,7 +146,7 @@ class Elphaba(pygame.sprite.Sprite):
             self.cooldown_timer = self.shoot_cooldown
             self.is_shooting = True
             self.animation_timer = 8
-            self.som_ataque.play()# toca o som de atque
+            self.som_ataque.play() # toca o som de atque
 
     def animar_sprites(self):
         if self.is_jumping:
@@ -199,7 +199,7 @@ class Elphaba(pygame.sprite.Sprite):
         self.rect.y = elph_y
         self.hearts = self.max_hearts
         self.mana = self.max_mana
-        self.jump_velocity = 0 # Reseta a velocidade de queda
+        self.jump_velocity = 0 # reseta a velocidade de queda
         self.is_jumping = False
         self.is_moving = False
         self.is_shooting = False
