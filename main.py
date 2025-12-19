@@ -119,7 +119,10 @@ def tocar_musica(caminho):
 carregar_sons()
 game_over = pygame.mixer.Sound('efeitos_sonoros/game over.wav')
 game_over.set_volume(0.5)
-tocou_game_over = False
+tocou_game_over = False # para não ficar repetindo
+pausa = pygame.mixer.Sound('efeitos_sonoros/pausa.wav')
+pausa.set_volume(0.5)
+pausou = False
 
 # === DEFINIÇÃO DE ESTADOS ===
 MENU = "menu"
@@ -207,7 +210,7 @@ while True:
 
     elif estado == GAME_OVER:
         desenhar_game_over(tela)
-        pygame.mixer.music.stop()
+        pygame.mixer.music.stop() # para a musica atual
         if not tocou_game_over:
             game_over.play()
             tocou_game_over = True
@@ -233,11 +236,18 @@ while True:
     elif estado == PAUSA:
         draw() 
         desenhar_pausa(tela)
+        pygame.mixer.music.pause() # pausa a musica
+        
+        if not pausou:
+            pausa.play()
+            pausou = True
 
         # é a mesma lógica do timer congelado: incrementa o tempo inicial
         tempo_inicial_ms += clock.get_time()
 
         if play_button.desenhar_botao(tela):
+            pausa.play()
+            pygame.mixer.music.unpause() # despausa
             estado = JOGANDO
 
         if exit_button.desenhar_botao(tela):
