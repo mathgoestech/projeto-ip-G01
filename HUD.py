@@ -1,6 +1,11 @@
 import pygame
 from settings import *
 
+fonte_hud = pygame.font.Font('Fonts/PixeloidSans.ttf', 10)
+fonte_contadores = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 10)
+fonte_telas = pygame.font.Font('Fonts/PixeloidSans.ttf', 32)
+fonte_vitoria = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 32)
+
 #  FUNÇÃO P/ DESENHAR A BARRA DE VIDA #
 def desenhar_vida(tela, elphaba):
     barra_largura = 60
@@ -19,12 +24,11 @@ def desenhar_vida(tela, elphaba):
     pygame.draw.rect(tela, cor_rosa, preenchimento_rect) # desenha o preenchimento interno
 
     # DESENHO DO TEXTO NUMÉRICO
-    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 10)
-    vida_texto = fonte.render(
-        f'{elphaba.hearts}/{elphaba.max_hearts}', 
-        True, 
-        cor_preta
-    )
+    vida_texto = fonte_hud.render(
+            f'{elphaba.hearts}/{elphaba.max_hearts}', 
+            True, 
+            cor_preta
+        )
     
     MARGEM_HORIZONTAL = 10 # espaço entre a barra e o número
     texto_altura = vida_texto.get_height() # centraliza o texto na altura da barra
@@ -69,12 +73,11 @@ def desenhar_mana(tela, elphaba):
     pygame.draw.rect(tela, cor_amarela, preenchimento_rect) # desenha o preenchimento interno
     
     # DESENHO DO TEXTO NUMÉRICO
-    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 10)
-    mana_texto = fonte.render(
-        f'{elphaba.mana}/{elphaba.max_mana}', 
-        True, 
-        cor_preta
-    )
+    mana_texto = fonte_hud.render(
+            f'{elphaba.mana}/{elphaba.max_mana}', 
+            True, 
+            cor_preta
+        )
 
     MARGEM_HORIZONTAL = 10 # espaço entre a barra e o número
     texto_altura = mana_texto.get_height() # centraliza o texto na altura da barra
@@ -100,8 +103,7 @@ def desenhar_contadores(tela, elphaba):
     
     # LOOP DE DESENHO
     for icone, nome, contagem_atual in itens:
-        fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 10) # renderiza o texto
-        texto_display = fonte.render(
+        texto_display = fonte_contadores.render(
             f'{nome}: {contagem_atual}', 
             True, 
             cor_preta
@@ -129,8 +131,7 @@ def desenhar_contadores(tela, elphaba):
 
 # FUNÇÃO GAME OVER #
 def desenhar_game_over(tela):
-    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 32)
-    texto = fonte.render("GAME OVER", True, cor_vermelha)
+    texto = fonte_telas.render("GAME OVER", True, cor_vermelha)
     rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)
 
@@ -141,15 +142,13 @@ def desenhar_pausa(tela):
     overlay.fill((255, 255, 255))
     tela.blit(overlay, (0, 0))
 
-    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 32)
-    texto = fonte.render("PAUSADO", True, cor_preta)
+    texto = fonte_telas.render("PAUSADO", True, cor_preta)
     rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)
 
 # FUNÇÃO VITÓRIA #
 def desenhar_vitoria(tela):
-    fonte = pygame.font.Font('Fonts/PixeloidSans-Bold.ttf', 32)
-    texto = fonte.render("VOCÊ RESGATOU A GLINDA!", True, cor_verde) 
+    texto = fonte_vitoria.render("VOCÊ RESGATOU A GLINDA!", True, cor_verde)
     rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)
 
