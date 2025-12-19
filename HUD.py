@@ -130,7 +130,19 @@ def desenhar_contadores(tela, elphaba):
 # FUNÇÃO GAME OVER #
 def desenhar_game_over(tela):
     fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 32)
-    texto = fonte.render("GAME OVER", True, (255, 0, 0)) #(255, 0, 0) é vermelho em RGB
+    texto = fonte.render("GAME OVER", True, cor_vermelha)
+    rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
+    tela.blit(texto, rect)
+
+def desenhar_pausa(tela):
+    # cria um retângulo preto transparente do tamanho da tela
+    overlay = pygame.Surface((tela_largura, tela_altura))
+    overlay.set_alpha(128) # define o nível de transparência
+    overlay.fill((255, 255, 255))
+    tela.blit(overlay, (0, 0))
+
+    fonte = pygame.font.Font('Fonts/PixeloidSans.ttf', 32)
+    texto = fonte.render("PAUSADO", True, cor_preta)
     rect = texto.get_rect(center=(tela_largura // 2, tela_altura // 2 - 50))
     tela.blit(texto, rect)
 

@@ -19,13 +19,15 @@ MUSICA_JOGO = 'efeitos_sonoros/trilha sonora.mp3' #a trilha do jogo
 musica_atual = None
 
 #=== CARREGAMENTO DOS BOTÕES ===
-start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha() 
+start_button_img = pygame.image.load('imagens/buttons/botao-jogar.png').convert_alpha()
+play_button_img = pygame.image.load('imagens/buttons/pausa verde.png').convert_alpha()
 exit_button_img = pygame.image.load('imagens/buttons/botao-sair.png').convert_alpha()
 restart_button_img = pygame.image.load('imagens/buttons/botao-reiniciar.png').convert_alpha() #botão do restart (para o game over)
 escala_botao = 0.5
 restart_button = Button(245, 150, restart_button_img, escala_botao)
 start_button = Button(245, 150, start_button_img, escala_botao)
 exit_button = Button(245, 220, exit_button_img, escala_botao)
+play_button = Button(245, 150, play_button_img, escala_botao)
 
 # === CARREGAMENTO DO MAPA === #
 mapa_oz = Mapa('mapas/mapateste.tmx') 
@@ -34,17 +36,21 @@ mapa_oz = Mapa('mapas/mapateste.tmx')
 BG1 = pygame.image.load('imagens/backgrounds/fundo-menuprincipal.png')
 tela_menu = pygame.transform.scale(BG1, (tela_largura, tela_altura))
 BG = pygame.image.load('imagens/backgrounds/emerald-city-path.jpg')
-tela_fundo = pygame.transform.scale(BG, (tela_largura, tela_altura))
-tela_fundo1 = pygame.transform.scale(BG, (tela_largura, tela_altura))
-tela_fundo2 = pygame.transform.scale(BG, (tela_largura, tela_altura))
-fundos_loop = [tela_fundo, tela_fundo1, tela_fundo2]
-fundos_pos = [0, -tela_largura, tela_largura]
 
 # === INSTANCIAÇÃO DE OBJETOS (POO) ===
 piso_y = tela_altura # define a altura vertical que o player considera como o chão (limite inferior da tela)
 elphaba = Elphaba(elph_x, 100) # cria o objeto Elphaba
 player = pygame.sprite.Group()
 player.add(elphaba)
+
+lista_inimigos = []
+for i in range(inimigos_qnt):
+    x, y = inimigos_pos[i]
+    macaco = Inimigos(x, y)
+    lista_inimigos.append(macaco)
+inimigo = pygame.sprite.Group()
+inimigo.add(lista_inimigos)
+
 disparo_ataque = pygame.sprite.Group()
 itens = pygame.sprite.Group()
 testando_hitbox1 = Relógio(500, 200)
@@ -64,14 +70,14 @@ tempo_congelado = 0
 timer_pausado = False
 
 # === FUNÇÃO DE RENDERIZAÇÃO (DRAW) ===
-def draw(scroller=scroller):
+def draw():
     global timer_pausado, tempo_congelado
 
-    for i in range(3):
-        pos_x_parallax = (fundos_pos[i] - camera[0] * 0.5) 
-        tela.blit(fundos_loop[i], (pos_x_parallax, 0 - camera[1]))
-
     mapa_oz.render(tela, render_camera)
+
+    #render dos inimigos
+    for macaco in lista_inimigos:
+        macaco.render(tela, offset=render_camera) # desenha o inimigo na tela com o offset da câmera
 
     # desenha os ataques na tela com o offset da câmera
     for ataque in disparo_ataque:
@@ -115,30 +121,51 @@ def tocar_musica(caminho):
 carregar_sons()
 game_over = pygame.mixer.Sound('efeitos_sonoros/game over.wav')
 game_over.set_volume(0.5)
-tocou_game_over = False
+tocou_game_over = False # para não ficar repetindo
+pausa = pygame.mixer.Sound('efeitos_sonoros/pausa.wav')
+pausa.set_volume(0.5)
+pausou = False
 
-# === Definindo estados ===
+# === DEFINIÇÃO DE ESTADOS ===
 MENU = "menu"
 JOGANDO = "jogando"
 GAME_OVER = "game_over"
+PAUSA = "pausa"
 VITORIA = "vitoria"
-estado =  MENU
+estado = MENU
 
 # === GAME LOOP PRINCIPAL ===
 while True:
     tela.fill((0, 0, 0))
+
     for event in pygame.event.get(): # itera sobre todos os eventos registrados pelo Pygame
+
         if event.type == pygame.QUIT: # fecha o jogo quando o 'X' da janela é clicado
             pygame.quit() # desinicializa todos os módulos do Pygame
             sys.exit() # sai do programa
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                if estado == JOGANDO:
+                    estado = PAUSA
+                elif estado == PAUSA:
+                    estado = JOGANDO
+            if event.key == pygame.K_ESCAPE:
+                if estado == GAME_OVER or estado == PAUSA or estado == JOGANDO:
+                    estado = MENU
+                elif estado == MENU:
+                    pygame.quit()
+                    sys.exit()
     
     if estado == MENU:
         tocar_musica(MUSICA_MENU)
         tela.blit(tela_menu, (0, 0))
+
         if start_button.desenhar_botao(tela): 
             estado = JOGANDO 
             tocar_musica(MUSICA_JOGO)
             tempo_inicial_ms = pygame.time.get_ticks()
+            
         if exit_button.desenhar_botao(tela):
             pygame.quit()
             sys.exit()
@@ -186,7 +213,27 @@ while True:
             scroller = 0
 
         # DESENHO
-        draw(scroller=scroller)
+        draw()
+
+    elif estado == VITORIA:
+        tela.fill((0, 0, 0))
+        desenhar_vitoria(tela) 
+
+        if restart_button.desenhar_botao(tela):
+            estado = MENU
+
+            elphaba.reset()
+            disparo_ataque.empty()
+            itens.empty()
+            
+            testando_hitbox1 = Relógio(500, 200)
+            testando_hitbox2 = Elixir(800, 200)
+            testando_hitbox3 = Grimmerie(1000, 200)
+            itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
+            
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
 
     elif estado == VITORIA:
         tela.fill((0, 0, 0))
@@ -210,7 +257,7 @@ while True:
 
     elif estado == GAME_OVER:
         desenhar_game_over(tela)
-        pygame.mixer.music.stop()
+        pygame.mixer.music.stop() # para a musica atual
         if not tocou_game_over:
             game_over.play()
             tocou_game_over = True
@@ -228,6 +275,27 @@ while True:
             itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 
             elphaba.reset() 
+
+        if exit_button.desenhar_botao(tela):
+            pygame.quit()
+            sys.exit()
+
+    elif estado == PAUSA:
+        draw() 
+        desenhar_pausa(tela)
+        pygame.mixer.music.pause() # pausa a musica
+        
+        if not pausou:
+            pausa.play()
+            pausou = True
+
+        # é a mesma lógica do timer congelado: incrementa o tempo inicial
+        tempo_inicial_ms += clock.get_time()
+
+        if play_button.desenhar_botao(tela):
+            pausa.play()
+            pygame.mixer.music.unpause() # despausa
+            estado = JOGANDO
 
         if exit_button.desenhar_botao(tela):
             pygame.quit()

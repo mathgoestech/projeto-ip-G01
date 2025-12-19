@@ -40,9 +40,93 @@ class Glinda(pygame.sprite.Sprite):
         self.animar()
         tela.blit(self.image, (self.rect.x - offset[0], self.rect.y - offset[1]))
 
-class Inimigos():
-    def __init__(self):
-        pass
+class Inimigos(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+
+        # PROPRIEDADES BÁSICAS E DE ESTADO
+        self.width = inimigo_largura
+        self.height = inimigo_altura
+        self.speed = inimigo_velocidade # velocidade de movimento
+        self.health = 3 # vida inicial do inimigo (ajuste se necessário)
+
+        # DEFINIÇÃO DAS ANIMAÇÕES
+        self.animations = {
+            'idle' : pygame.transform.scale(
+                pygame.image.load('imagens/sprites/macaco-voador/macaco_frente.png'),
+                (self.width, self.height)
+                ),
+            'voando' : [
+                pygame.transform.scale(
+                pygame.image.load('imagens/sprites/macaco-voador/macaco_lado_frame1.png'),
+                (self.width, self.height)
+                ),
+                pygame.transform.scale(
+                pygame.image.load('imagens/sprites/macaco-voador/macaco_lado_frame2.png'),
+                (self.width, self.height)
+                ),
+                pygame.transform.scale(
+                pygame.image.load('imagens/sprites/macaco-voador/macaco_lado_frame3.png'),
+                (self.width, self.height)
+                ),
+                pygame.transform.scale(
+                pygame.image.load('imagens/sprites/macaco-voador/macaco_lado_frame4.png'),
+                (self.width, self.height)
+                ),
+                pygame.transform.scale(
+                pygame.image.load('imagens/sprites/macaco-voador/macaco_lado_frame5.png'),
+                (self.width, self.height)
+                )
+            ]
+        }
+
+        # CONFIGURAÇÕES DE IMAGEM E HITBOX
+        self.image = self.animations['idle']
+
+        largura_hitbox = self.width * 0.15
+        altura_hitbox = self.height * 0.45
+
+        self.rect = pygame.Rect(x, y, largura_hitbox, altura_hitbox)
+
+        self.gravity = gravidade
+        self.is_targeting = False
+        self.direction = 1 # 1 para direita, -1 para esquerda
+
+        # VARIÁVEIS DE ANIMAÇÃO
+        self.current_frame = 0
+        self.animation_speed = 0.1
+
+    def animar_sprites(self):
+        if self.is_targeting:
+            self.current_frame += self.animation_speed
+
+            # loop de animação: se a sequência de frames chegar ao fim, volta pro início
+            if self.current_frame >= len(self.animations['voando']): 
+                self.current_frame = 0
+
+            self.image = self.animations['voando'][int(self.current_frame)]
+
+            if self.direction == -1:
+                self.image = pygame.transform.flip(self.image, True, False)
+
+        else:
+            self.image = self.animations['idle']
+
+    def update(self):
+        self.animar_sprites()
+
+    def reset(self):
+        #MUDAR DPS
+        self.rect.x = inimigos_pos[0][0]
+        self.rect.y = inimigos_pos[0][1]
+        self.health = 3
+        self.is_targeting = False
+
+    def render(self, tela, offset=(0, 0)):
+        desenho_x = self.rect.centerx - (self.width / 2) - offset[0]
+        desenho_y = self.rect.bottom - self.height - offset[1]
+
+        tela.blit(self.image, (desenho_x, desenho_y))
 
 class Relógio(pygame.sprite.Sprite):
     def __init__(self, x, y):
