@@ -46,8 +46,10 @@ player = pygame.sprite.Group()
 player.add(elphaba)
 disparo_ataque = pygame.sprite.Group()
 itens = pygame.sprite.Group()
-testando_hitbox = Relógio(500, 200) 
-itens.add(testando_hitbox)
+testando_hitbox1 = Relógio(500, 200)
+testando_hitbox2 = Elixir(800, 200)
+testando_hitbox3 = Grimmerie(1000, 200)
+itens.add(testando_hitbox1, testando_hitbox2, testando_hitbox3)
 camera = [0, 0] # posição inicial da câmera
 scroller = 0
 render_camera = [0, 0]
@@ -83,6 +85,10 @@ def draw(scroller=scroller):
             if item.item_type == 'relógio do dragão':
                 timer_pausado = True # desativa temporariamente o timer
                 tempo_congelado = pygame.time.get_ticks() + 5000 # calcula o momento exato em que o tempo deve voltar ao normal
+            elif item.item_type == 'elixir da vida':
+                elphaba.hearts = min(elphaba.hearts + 2, elphaba.max_hearts) # caso a vida máxima ainda esteja cheia, não recebe o bônus
+            elif item.item_type == 'grimório da elphie':
+                elphaba.mana = min(elphaba.mana + 4, elphaba.max_mana) # caso a magia máxima ainda esteja cheia, não recebe o bônus
 
             item.kill() # deleta o item do jogo
 
@@ -94,10 +100,17 @@ def draw(scroller=scroller):
 
 # === FUNÇÃO PRA MUSICA ===
 def tocar_musica(caminho):
-    pygame.mixer.music.stop()# para a musica atual
-    pygame.mixer.music.load(caminho) # troca a musica
-    pygame.mixer.music.set_volume(0.5)# volume
-    pygame.mixer.music.play(-1) # toca em looping
+    global musica_atual
+    if musica_atual != caminho:
+        pygame.mixer.music.stop()# para a musica atual
+        pygame.mixer.music.load(caminho)# troca a musica
+        pygame.mixer.music.set_volume(0.5)# volume
+        pygame.mixer.music.play(-1)# toca em looping
+        musica_atual = caminho
+
+# === FUNÇÃO SOM DE COLETA ===
+from objetos import carregar_sons
+carregar_sons()
 
 # === Definindo estados ===
 MENU = "menu"
@@ -114,6 +127,7 @@ while True:
             sys.exit() # sai do programa
     
     if estado == MENU:
+        tocar_musica(MUSICA_MENU)
         tela.blit(tela_menu, (0, 0))
         if start_button.desenhar_botao(tela): 
             estado = JOGANDO 
