@@ -12,7 +12,7 @@ Não há tempo a perder! Vidas estão em jogo, e Elphaba precisa resgatar Glinda
   <img src="imagens/imagens_readme/elph_glin.png" width="45%">
 </p>
 
-## Como Jogar
+# Como Jogar
 **Objetivo do jogo:** Glinda foi sequestrada e encontra-se cercada por macacos voadores. Agora, Elphaba precisa enfrentar esses lacaios e atravessar os perigos do caminho para resgatá-la em segurança. O jogo termina quando Elphaba alcança Glinda.
 
 ### Personagens
@@ -25,7 +25,16 @@ Não há tempo a perder! Vidas estão em jogo, e Elphaba precisa resgatar Glinda
 ### Coletáveis
 **Recarga de munição:** Grimório da Elphaba. <img src="imagens/gifs/grimorio_gif.gif" width="10%">
 
+**Recupera a vida:** Poções de cura. <img src="imagens/gifs/pocao.gif" width="10%">
 
+**Congela o timer:** Relógio do dragão. <img src="imagens/gifs/relogio.gif" width="10%">
+
+# Como Baixar
+* Aqui repositório do GitHub, selecione a alternativa “<> Code” e copie a URL;
+* Verifique se o seu Visual Studio Code tem a versão atualizada do python;
+* No terminal do VSCode, digite o comando ```pip install pygame```;
+* Ainda no terminal, digite o comando ```pip install pytmx```;
+* Após as instalações, também no terminal, digite ```git clone + URL``` e salve o projeto;
 
 
 ## Equipe
