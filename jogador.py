@@ -23,7 +23,7 @@ class Elphaba(pygame.sprite.Sprite):
         
         #SOM DO ATAQUE
         self.som_ataque = pygame.mixer.Sound('efeitos_sonoros/barulho ataque.wav')
-        self.som_ataque.set_volume(0.3)
+        self.som_ataque.set_volume(0.5)
 
         # DEFINIÇÃO DAS ANIMAÇÕES
         self.animations = {

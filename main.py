@@ -5,6 +5,7 @@ from jogador import *
 from objetos import *
 from HUD import * # importa todas as funções de HUD.py
 from mapa import Mapa # importa o mapa
+from objetos import carregar_sons # importa a função do sons dos coletáveis
 
 pygame.init()
 
@@ -108,9 +109,11 @@ def tocar_musica(caminho):
         pygame.mixer.music.play(-1)# toca em looping
         musica_atual = caminho
 
-# === FUNÇÃO SOM DE COLETA ===
-from objetos import carregar_sons
+# === COMANDO ENVOLVENDO SONS ===
 carregar_sons()
+game_over = pygame.mixer.Sound('efeitos_sonoros/game over.wav')
+game_over.set_volume(0.5)
+tocou_game_over = False
 
 # === Definindo estados ===
 MENU = "menu"
@@ -180,6 +183,10 @@ while True:
 
     elif estado == GAME_OVER:
         desenhar_game_over(tela)
+        pygame.mixer.music.stop()
+        if not tocou_game_over:
+            game_over.play()
+            tocou_game_over = True
         if restart_button.desenhar_botao(tela):
             estado = MENU
             elphaba.reset()
