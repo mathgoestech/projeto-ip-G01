@@ -26,6 +26,8 @@ Não há tempo a perder! Vidas estão em jogo, e Elphaba precisa resgatar Glinda
 **Recarga de munição:** Grimório da Elphaba. <img src="imagens/gifs/grimorio_gif.gif" width="10%">
 
 
+
+
 ## Equipe
 * Arthur Araújo do Nascimento (aan5@cin.ufpe.br)
 * Leon Gonçalves Galvão Santos (lggs@cin.ufpe.br)
@@ -44,7 +46,7 @@ Matheus           | Programação principal, criação das sprites dos personage
 Sophia            | Criação das sprites do inimigo e coletáveis, tela de menu e game over, relatório final e slides
 
 
-# Arquitetura do Código 
+## Arquitetura do Código 
 A organização do código baseia-se na modularização dos arquivos, sendo eles:
 Módulos               | Funcionalidades
 --------------------- | -------------
@@ -55,14 +57,14 @@ Mapa                  | Responsável por por carregar e gerenciar mapas criados 
 Objetos               | Inclui as classes dos demais objetos presentes no jogo: Glinda, inimigos, Relógio, elixir, Grimmerie.
 Settings              | Centraliza em um único módulo as configurações das variáveis que serão utilizadas durante o código.
 
-# Ferramentas Utilizadas
+## Ferramentas Utilizadas
 * VSCode (Editor de código para a programação)
 * GitHub (Plataforma baseada em nuvem onde o código foi armazenado)
 * Pygame (Biblioteca voltada para o desenvolvimento de jogos e demais aplicações multimídia)
 * Tiled (Editor visual de mapas 2D)
 * Pytmx (biblioteca Python que permite ler e interpretar arquivos .tmx criados no Tiled.)
 
-# Conceitos aprendidos na disciplina presentes no código
+## Conceitos aprendidos na disciplina presentes no código
 * **Estruturas condicionais:** 
     >Presente em grande parte dos módulos, são elas: movimentação do player principal, troca de estados, animações das sprites, condicionais dos coletáveis
 
@@ -76,8 +78,12 @@ Settings              | Centraliza em um único módulo as configurações das v
     >Animação das sprites, guardar coletáveis no HUD, definir elementos de colisão no mapa
 
 
-*Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele?
-não ter feitos mais reuniões em grupo, pois o tempo 
-*Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele?
+## Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele?
+>O maior erro da nossa equipe foi não termos estabelecido uma rotina de reuniões em grupo logo no início, pois percebemos tardiamente que o trabalho fluía com muito mais agilidade quando estávamos juntos. Corrigimos isso a partir dos primeiros checkpoints com o monitor. Vale ressaltar que essa falha inicial não prejudicou nossa comunicação, que foi excelente, mas sim a otimização do nosso ritmo de entregas, visto o curto período para entregar o projeto.
 
-*Quais as lições aprendidas durante o projeto?
+
+## Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele?
+>O maior desafio do projeto foi a transição para o paradigma de Programação Orientada a Objetos (POO) e a modularização do código. Por serem conceitos novos para a equipe e com um cronograma de entrega apertado, conciliar o aprendizado técnico com a gestão eficiente das tarefas foi complexo. Superamos esse obstáculo através de pesquisas intensas e uma comunicação constante.
+
+## Quais as lições aprendidas durante o projeto?
+>As principais lições aprendidas envolveram o fortalecimento do trabalho em equipe, especialmente o desenvolvimento colaborativo. Compreendemos a importância de escrever um código limpo e legível que todos pudessem entender, superando o desafio de alinhar as diferentes lógicas e estilos individuais de programação. Essa experiência nos mostrou que a clareza na escrita do código e a capacidade de interpretar o trabalho do colega são fundamentais para a manter o projeto organizado.
